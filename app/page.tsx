@@ -1,6 +1,10 @@
 import { Home as HomeIcon, Boxes, Sprout, User, Github } from "lucide-react";
 
 // import { identifyPlant } from '../src/plant';
+import * as database from '../src/firebase/database'
+import * as auth from '../src/firebase/auth'
+
+auth.print()
 
 export default function Home() {
   return (

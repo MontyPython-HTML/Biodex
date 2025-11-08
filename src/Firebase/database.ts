@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { addDoc, collection, doc, deleteDoc, updateDoc, getDocs, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, deleteDoc, updateDoc, getDocs, getDoc, getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_KEY,
@@ -13,7 +13,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const database = firestore.getFirestore(app);
+const database = getFirestore(app);
+
 
 export async function addToFirebase (object, table) {
   await addDoc(collection(database, table), object)

@@ -1,5 +1,8 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from "firebase/app"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { User } from "@/src/Models/User"
+import { Pet } from "@/src/Models/Pet"
+import * as database from "@/src/Firebase/database"
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_KEY,
@@ -15,19 +18,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-export function print () {
-  console.log(auth);
-}
-
-export async function createUser (auth, email, password) {
+export async function createUser (email, password) {
   createUserWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
-      console.log(userCredential.user);
+      let newUser = {
+        id: userCredential.user.uid,
+        username: userCredential.user.displayName,
+        level: 1,
+        pet: { health: 100, input: 10 }, 
+      }
+      database.addToFirebase(newUser, "users")
     })
-    .catch(error => { console.error(error); });
+    .catch(error => { console.error(error) })
 }
 
-export async function signIn (auth, email, password) {
+export async function signIn (email, password) {
   signInWithEmailAndPassword(auth, email, password)
-    .catch(error => { console.error(error); });
+    .catch(error => { console.error(error) })
 }
+

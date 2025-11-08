@@ -15,7 +15,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
 
-
 export async function addToFirebase (object, table) {
   await addDoc(collection(database, table), object)
     .catch(error => { console.error(error); });

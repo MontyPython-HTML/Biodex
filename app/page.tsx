@@ -1,7 +1,8 @@
-import { Home, Boxes, Sprout, User, Github } from "lucide-react";
-import HomePage from "./Homepage/page";
+import { Home as HomeIcon, Boxes, Sprout, User, Github } from "lucide-react";
 
-export default function HomeP() {
+// import { identifyPlant } from '../src/plant';
+
+export default function Home() {
   return (
     <div className="flex min-h-screen">
       
@@ -15,7 +16,7 @@ export default function HomeP() {
         <ul className="flex flex-col items-center mt-10 space-y-8">
           <li>
             <a href="#top" className="hover:text-[#719e92] transition">
-              <Home className="w-7 h-7 text-white" />
+              <HomeIcon className="w-7 h-7 text-white" />
             </a>
           </li>
           <li>
@@ -62,3 +63,5 @@ export default function HomeP() {
     </div>
   );
 }
+
+// identifyPlant('./media/test.jpg');

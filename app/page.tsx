@@ -1,15 +1,6 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      Hello Geauxhack 2025
-=======
-import Image from "next/image";
-=======
+import Image from 'next/image'
 import Head from 'next/head'
 import { House, Box, PawPrint, User } from 'lucide-react';
->>>>>>> f6c3b7e (homepage-and-tailwind-variables)
 
 const leavesBkgStyle = {
   height: '100%',
@@ -18,7 +9,6 @@ const leavesBkgStyle = {
 
 function Home() {
   return (
-<<<<<<< HEAD
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
         <Image
@@ -77,8 +67,6 @@ function Home() {
           </a>
         </div>
       </main>
->>>>>>> ffc709d (Initial commit from Create Next App)
-=======
     <div className='bg-background w-full h-screen'>
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
@@ -100,10 +88,9 @@ function Home() {
         <h1 className='display-large'>BioDex</h1>
         <p></p>
       </div>
-
->>>>>>> f6c3b7e (homepage-and-tailwind-variables)
+    </div>
     </div>
   );
 }
 
-export default Home
+export default Home;

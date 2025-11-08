@@ -1,6 +1,7 @@
 import { Home as HomeIcon, Boxes, Sprout, User, Github } from "lucide-react";
+import { identifyPlant } from "@/src/plant";    
 
-import * as auth from "../src/Firebase/auth";
+import * as auth from "@/src/Firebase/auth";
 
 auth.print();
 
@@ -64,3 +65,4 @@ export default function Home () {
 }
 
 // identifyPlant('./media/test.jpg');
+auth.createUser("bruh@gmail.com", "ABCDEFGH1");

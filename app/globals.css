@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+/*Colors*/
+@theme {
+  --color-primary: #203100;
+  --color-surface-tint: #506528;
+  --color-on-primary: #FFFFFF;
+  --color-primary-container: #3B5014;
+  --color-on-primary-container: #FFFFFF;
+  --color-secondary: #272F19;
+  --color-on-secondary: #FFFFFF;
+  --color-secondary-container: #444C34;
+  --color-on-secondary-container: #FFFFFF;
+  --color-tertiary: #00322E;
+  --color-on-tertiary: #FFFFFF;
+  --color-tertiary-container: #22514B;
+  --color-on-tertiary-container: #FFFFFF;
+  --color-error: #600004;
+  --color-on-error: #FFFFFF;
+  --color-error-container: #98000A;
+  --color-on-error-container: #FFFFFF;
+  --color-background: #FAFAEE;
+  --color-on-background: #1A1C15;
+  --color-surface: #FAFAEE;
+  --color-on-surface: #000000;
+  --color-surface-variant: #E2E4D4;
+  --color-on-surface-variant: #000000;
+  --color-outline: #2A2D23;
+  --color-outline-variant: #474A3F;
+  --color-shadow: #000000;
+  --color-scrim: #000000;
+  --color-inverse-surface: #2F3129;
+  --color-inverse-on-surface: #FFFFFF;
+  --color-inverse-primary: #B6D086;
+  --color-primary-fixed: #3B5014;
+  --color-on-primary-fixed: #FFFFFF;
+  --color-primary-fixed-dim: #263800;
+  --color-on-primary-fixed-variant: #FFFFFF;
+  --color-secondary-fixed: #444C34;
+  --color-on-secondary-fixed: #FFFFFF;
+  --color-secondary-fixed-dim: #2E351F;
+  --color-on-secondary-fixed-variant: #FFFFFF;
+  --color-tertiary-fixed: #22514B;
+  --color-on-tertiary-fixed: #FFFFFF;
+  --color-tertiary-fixed-dim: #043935;
+  --color-on-tertiary-fixed-variant: #FFFFFF;
+  --color-surface-dim: #B9BAAF;
+  --color-surface-bright: #FAFAEE;
+  --color-surface-container-lowest: #FFFFFF;
+  --color-surface-container-low: #F1F1E6;
+  --color-surface-container: #E3E3D8;
+  --color-surface-container-high: #D5D5CA;
+  --color-surface-container-highest: #C6C7BC;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+/*Text Styles*/
+.display-large {
+  font-family: "Kreon", serif;
+  font-weight: regular;
+  font-size: 57px;
+  line-height: 64px;
+  letter-spacing: -0.25px;
+}
+.display-medium {
+  font-family: "Kreon", serif;
+  font-weight: regular;
+  font-size: 45px;
+  line-height: 52px;
+  letter-spacing: 0px;
+}
+.display-small {
+  font-family: "Kreon", serif;
+  font-weight: regular;
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: 0px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.headline-large {
+  font-family: "Kreon", serif;
+  font-weight: regular;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: 0px;
+}
+.headline-medium {
+  font-family: "Kreon", serif;
+  font-weight: regular;
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: 0px;
+}
+.headline-small {
+  font-family: "Kreon", serif;
+  font-weight: regular;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0px;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.title-large {
+  font-family: "Poppins", sans-serif;
+  font-weight: regular;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: 0px;
+}
+.title-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: medium;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+.title-small {
+  font-family: "Poppins", sans-serif;
+  font-weight: medium;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.body-large {
+  font-family: "Poppins", sans-serif;
+  font-weight: regular;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+.body-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: regular;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+}
+.body-small {
+  font-family: "Poppins", sans-serif;
+  font-weight: regular;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.4px;
+}
+
+.label-large {
+  font-family: "Poppins", sans-serif;
+  font-weight: medium;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+.label-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: medium;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+}
+.label-small {
+  font-family: "Poppins", sans-serif;
+  font-weight: medium;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
 }

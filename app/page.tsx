@@ -1,13 +1,24 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default function Home() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       Hello Geauxhack 2025
 =======
 import Image from "next/image";
+=======
+import Head from 'next/head'
+import { House, Box, PawPrint, User } from 'lucide-react';
+>>>>>>> f6c3b7e (homepage-and-tailwind-variables)
 
-export default function Home() {
+const leavesBkgStyle = {
+  height: '100%',
+  width: 'auto',
+}
+
+function Home() {
   return (
+<<<<<<< HEAD
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
         <Image
@@ -67,6 +78,32 @@ export default function Home() {
         </div>
       </main>
 >>>>>>> ffc709d (Initial commit from Create Next App)
+=======
+    <div className='bg-background w-full h-screen'>
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+        <link rel="preconnect" href="https://fonts.gstatic.com"></link>
+        <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"></link>
+      </Head>
+      <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center absolute h-screen px-[15px] py-[15px]">
+        <section id="topIcons" className='flex flex-col gap-5' color="white">
+          <House id="homeBtn" className='w-[39px] h-[39px] text-inverse-primary'/>  
+          <PawPrint id="petBtn" className='w-[39px] h-[39px]' color="white"/>
+          <Box id="inventoryBtn" className='w-[39px] h-[39px]' color="white"/>
+        </section>
+        <section id="profile">
+          <User id="profileBtn" className='w-[39px] h-[39px]' color="white"/>
+        </section>
+      </nav>
+      
+      <div id="homePage" className='bg-[url(./media/leavesBkg.png)] bg-cover h-screen w-'>
+        <h1 className='display-large'>BioDex</h1>
+        <p></p>
+      </div>
+
+>>>>>>> f6c3b7e (homepage-and-tailwind-variables)
     </div>
   );
 }
+
+export default Home

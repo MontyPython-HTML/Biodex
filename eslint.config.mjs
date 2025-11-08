@@ -10,13 +10,13 @@ import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 
 export default defineConfig(
-    globalIgnores(["node_modules", "dist"]),
+    globalIgnores(["node_modules", "dist", ".next", "*.mjs"]),
     js.configs.recommended,
     ...tseslint.configs.recommended,
     ...tseslint.configs.stylistic,
     reactHooks.configs.flat.recommended,
     stylistic.configs.customize({
-        indent: 4,
+        indent: 2,
         semi: true,
         commaDangle: "never"
     }),
@@ -69,7 +69,7 @@ export default defineConfig(
             // Stylistic
             "@stylistic/arrow-parens": ["warn", "as-needed"],
             "@stylistic/brace-style": ["warn", "1tbs", { allowSingleLine: true }],
-            "@stylistic/indent": ["warn", 4, { SwitchCase: 1 }],
+            "@stylistic/indent": ["warn", 2, { SwitchCase: 1 }],
             "@stylistic/max-statements-per-line": "off",
             "@stylistic/jsx-one-expression-per-line": "off",
             "@stylistic/member-delimiter-style": ["warn", { singleline: { delimiter: "comma" }, multiline: { delimiter: "none" } }],

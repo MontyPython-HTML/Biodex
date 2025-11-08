@@ -1,22 +1,21 @@
 import { Home as HomeIcon, Boxes, Sprout, User, Github } from "lucide-react";
 
 // import { identifyPlant } from '../src/plant';
-import * as database from '../src/firebase/database'
-import * as auth from '../src/firebase/auth'
+// import * as database from "../src/firebase/database";
+import * as auth from "../src/firebase/auth";
 
-auth.print()
+auth.print();
 
-export default function Home() {
+export default function Home () {
   return (
     <div className="flex min-h-screen">
-      
+
       <nav className="fixed left-0 top-0 w-24 h-full bg-[#444C34] shadow-lg flex flex-col items-center py-6">
         {/* Logo */}
         <div className="w-16 h-16 bg-[#719e92] rounded-full flex items-center justify-center text-white font-semibold text-xs">
           BD
-        </div> 
+        </div>
 
-        
         <ul className="flex flex-col items-center mt-10 space-y-8">
           <li>
             <a href="#top" className="hover:text-[#719e92] transition">
@@ -40,7 +39,6 @@ export default function Home() {
           </li>
         </ul>
 
-        
         <div className="mt-auto flex flex-col items-center space-y-6">
           <a
             href="https://github.com/"
@@ -60,7 +58,6 @@ export default function Home() {
         </div>
       </nav>
 
-    
       <main className="flex-1 ml-24">
         {/* Your page content here, e.g., parallax sections */}
       </main>

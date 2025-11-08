@@ -1,6 +1,7 @@
 import { Home, Boxes, Sprout, User, Github } from "lucide-react";
+import HomePage from "./Homepage/page";
 
-export default function HomePage() {
+export default function HomeP() {
   return (
     <div className="flex min-h-screen">
       

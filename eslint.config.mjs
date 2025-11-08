@@ -1,6 +1,4 @@
 import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
 
 import tseslint from "typescript-eslint";
 import js from "@eslint/js";
@@ -109,4 +107,3 @@ export default defineConfig(
         }
     }
 );
-export default eslintConfig;

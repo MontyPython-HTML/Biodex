@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_KEY,
@@ -19,15 +19,15 @@ export function print () {
   console.log(auth);
 }
 
-export async function createUser (auth, email, password) {
+export async function createUser (email, password) {
   createUserWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
-      console.log(userCredential.user);
+      console.log(userCredential.user.uid);
     })
     .catch(error => { console.error(error); });
 }
 
-export async function signIn (auth, email, password) {
+export async function signIn (email, password) {
   signInWithEmailAndPassword(auth, email, password)
     .catch(error => { console.error(error); });
 }

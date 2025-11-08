@@ -1,5 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from "firebase/app"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { User } from "@/src/Models/User"
+import * as database from "@/src/Firebase/database"
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_KEY,
@@ -22,7 +24,14 @@ export function print () {
 export async function createUser (email, password) {
   createUserWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
-      console.log(userCredential.user.uid);
+      let newUser: User = {
+        id: userCredential.user.uid,
+        username: userCredential.user.displayName,
+        level: 1,
+        pet: { health: 100, input: 10 }, 
+        dexId:
+      }
+      database.addToFirebase(newUser, "users")
     })
     .catch(error => { console.error(error) })
 }

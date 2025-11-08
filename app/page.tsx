@@ -1,48 +1,63 @@
-import { Github } from "lucide-react";
+import { Home, Boxes, Sprout, User, Github } from "lucide-react";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <nav
-      className="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-6xl 
-        bg-[#f4f7f6] backdrop-blur-md shadow-lg rounded-full px-6 py-3 
-        flex items-center justify-between z-50"
-    >
-      <div className="flex items-center space-x-2">
+    <div className="flex min-h-screen">
+      
+      <nav className="fixed left-0 top-0 w-24 h-full bg-[#444C34] shadow-lg flex flex-col items-center py-6">
+        {/* Logo */}
         <div className="w-16 h-16 bg-[#719e92] rounded-full flex items-center justify-center text-white font-semibold text-xs">
-          BioDex
+          BD
+        </div> 
+
+        
+        <ul className="flex flex-col items-center mt-10 space-y-8">
+          <li>
+            <a href="#top" className="hover:text-[#719e92] transition">
+              <Home className="w-7 h-7 text-white" />
+            </a>
+          </li>
+          <li>
+            <a href="#about" className="hover:text-[#719e92] transition">
+              <Boxes className="w-7 h-7 text-white" />
+            </a>
+          </li>
+          <li>
+            <a href="#coursesContainer" className="hover:text-[#719e92] transition">
+              <Sprout className="w-7 h-7 text-white" />
+            </a>
+          </li>
+          <li>
+            <a href="#calendar" className="hover:text-[#719e92] transition">
+              <User className="w-7 h-7 text-white" />
+            </a>
+          </li>
+        </ul>
+
+        
+        <div className="mt-auto flex flex-col items-center space-y-6">
+          <a
+            href="https://github.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#719e92] transition"
+          >
+            <Github className="w-7 h-7 text-white" />
+          </a>
+
+          <a
+            href="#calendarsection"
+            className="bg-[#719e92] text-white px-4 py-2 rounded-full hover:bg-[#88a2ad] transition text-xs"
+          >
+            Login
+          </a>
         </div>
-        <span className="font-bold text-lg">BioDex</span>
-      </div>
+      </nav>
 
-      <ul
-        id="navbar"
-        className="hidden md:flex items-center space-x-6 text-gray-700 font-medium bg-[#f4f7f6]"
-      >
-        <li><a href="#top" className="hover:text-black">Home</a></li>
-        <li><a href="#about" className="hover:text-black">Inventory</a></li>
-        <li><a href="#coursesContainer" className="hover:text-black">Plant</a></li>
-        <li><a href="#calendar" className="hover:text-black">Profile</a></li>
-        <li><a href="#chatbot" className="hover:text-black">Shop</a></li>
-      </ul>
-
-      <div className="flex items-center space-x-4">
-        {/* GitHub Icon */}
-        <a
-          href="https://github.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-black transition"
-        >
-          <Github className="w-6 h-6 text-gray-700 hover:text-black" />
-        </a>
-
-        <a
-          href="#calendarsection"
-          className="bg-[#719e92] text-white px-4 py-2 rounded-full hover:bg-[#88a2ad] transition"
-        >
-          Login In
-        </a>
-      </div>
-    </nav>
+    
+      <main className="flex-1 ml-24">
+        {/* Your page content here, e.g., parallax sections */}
+      </main>
+    </div>
   );
 }

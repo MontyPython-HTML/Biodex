@@ -1,11 +1,5 @@
 @import "tailwindcss";
 
-<<<<<<< HEAD
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  
-=======
 
 /*Colors*/
 @theme {
@@ -58,7 +52,6 @@
   --color-surface-container: #E3E3D8;
   --color-surface-container-high: #D5D5CA;
   --color-surface-container-highest: #C6C7BC;
->>>>>>> 2b795482143f960139705be312dd766f0d092a04
 }
 
 
@@ -85,13 +78,6 @@
   letter-spacing: 0px;
 }
 
-<<<<<<< HEAD
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #B2BCAA;
-    --foreground: #ededed;
-  }
-=======
 .headline-large {
   font-family: "Kreon", serif;
   font-weight: regular;
@@ -112,7 +98,6 @@
   font-size: 24px;
   line-height: 32px;
   letter-spacing: 0px;
->>>>>>> 2b795482143f960139705be312dd766f0d092a04
 }
 
 .title-large {

@@ -2,7 +2,7 @@
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="min-h-screen flex items-center justify-center backdrop-blur-sm bg-background" style={{backgroundImage: "url('https://www.animationsoftware7.com/img/agifs/leaf_fall_4.gif"}}>
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 font-headline-large">
           Welcome Back!

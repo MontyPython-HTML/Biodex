@@ -36,6 +36,9 @@
     "typescript-eslint": "^8.46.3"
   },
   "trustedDependencies": [
-    "unrs-resolver"
+    "@firebase/util",
+    "protobufjs",
+    "unrs-resolver",
+    "wtf_wikipedia"
   ]
 }

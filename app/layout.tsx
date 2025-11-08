@@ -13,8 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Biodex",
-  description: "winning"
+  title: "Biodex"
 };
 
 const poppins = Poppins({
@@ -37,7 +36,7 @@ export default function RootLayout ({
 }>) {
   return (
     <html lang="en" className={`${poppins.variable} ${kreon.variable}`}>
-      <body>
+      <body className='bg-background'>
         {children}
       </body>
     </html>

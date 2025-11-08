@@ -1,11 +1,12 @@
-import { identifyPlant } from "@/src/plant";    
-import * as auth from "@/src/Firebase/auth";
+import Image from 'next/image'
 import Head from 'next/head'
 import { House, Box, PawPrint, User } from 'lucide-react';
+import { identifyPlant } from "@/src/plant";    
+import * as auth from "@/src/Firebase/auth";
 
 export default function Home () {
   return (
-    <div className='w-full h-full overflow-x-hidden overflow-y-hidden'>
+    <div className='bg-background w-full h-screen'>
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com"></link>
@@ -21,7 +22,6 @@ export default function Home () {
           <User id="profileBtn" className='w-[39px] h-[39px]' color="white"/>
         </section>
       </nav>
-      
       <div id='homePage' className='flex flex-col'>
         <div id="aboutPage" className='bg-background bg-[url(./media/leavesBkg.png)] bg-cover h-screen bg-right p-35 flex flex-col justify-center'>
             <h1 id="mainTitle" className='font-(family-name:--font-kreon) text-[10vmin] float-left leading-25'>BioDex</h1>
@@ -47,4 +47,3 @@ export default function Home () {
     </div>
   );
 }
-

@@ -1,8 +1,25 @@
+'use client';
+import React, { useRef, useEffect } from "react";
+
+import gsap from "gsap";
 
 import { House, PawPrint, Box, User } from "lucide-react";
 import Link from "next/link";
-import gsap from "gsap";
+
+
+
+
+
+
 export default function Profile() {
+useEffect(() => {
+    gsap.from(healthRef.current, { x: -200, opacity: 0, duration: 1.5, ease: "power2.out" });
+    gsap.from(levelRef.current, { x: 200, opacity: 0, duration: 1.5, ease: "power2.out", delay: 0.5 });
+    gsap.from(circleRef.current, { y: 100, opacity: 0, duration: 1.5, ease: "power2.out", delay: 1 });
+}, []);
+const healthRef = useRef(null);
+const levelRef = useRef(null);
+const circleRef = useRef(null);
 return (
 <div>
 <Navbar />
@@ -10,13 +27,13 @@ return (
 <div className="flex justify-end w-full pr-10">
 <div className="flex gap-6">
 
-<div className="w-220 h-40 bg-white shadow-xl rounded-2xl p-8 justify-let translate-y-5">
+<div ref={healthRef} className="w-220 h-40 bg-white shadow-xl rounded-2xl p-8 justify-let translate-y-5">
 <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 font-headline-large"> Welcome Back!, </h2>
 <h3> HP: <HealthBar value={85} /></h3>
 </div>
 
-<div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
-<Circle />
+<div  ref={levelRef}className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
+<Circle ref={circleRef} />
 <h3 className="text-3xl font-bold text-center mb-6 text-gray-800 font-headline-large"> Level Progress:<LevelBar level={8} currentXP={8} maxXP={20} /> </h3>
 </div>
 

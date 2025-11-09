@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { House, Box, PawPrint, User } from 'lucide-react';
 import Link from 'next/link';
 
-function Home() {
+function Pet() {
   return (
     <div className='bg-background w-full h-screen'>
       <Head>
@@ -37,4 +37,4 @@ function Home() {
   );
 }
 
-export default Home
+export default Pet

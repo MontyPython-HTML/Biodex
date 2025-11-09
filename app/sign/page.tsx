@@ -1,6 +1,10 @@
+import Image from 'next/image'
+import Head from 'next/head'
+import { identifyPlant } from "@/src/plant";    
+import * as auth from "@/src/Firebase/auth";
 import Link from 'next/link';
 
-export default function SignInPage() {
+export default function SignIn() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
@@ -44,7 +48,7 @@ export default function SignInPage() {
           </div>
           <div><label className="block text-gray-700 mb-1 font-medium">Confirm Password</label>
             <input
-              type="confirm password"
+              type="password"
               required
               className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
               placeholder="••••••••"
@@ -52,10 +56,10 @@ export default function SignInPage() {
           </div>
           <button type="submit" className="w-full py-2 bg-secondary-container hover:bg-green-800 transition text-white rounded-xl font-semibold">Sign Up</button>
           <p className="text-center text-sm text-gray-600">
-            Already Have An Account?{" "}
-            <a href="/login" className="text-secondary-container font-medium hover:underline">
+            Already Have An Account?
+            <Link href="/login" className="text-secondary-container font-medium hover:underline">
               Login!
-            </a>
+            </Link>
           </p>
         </form>
       </div>

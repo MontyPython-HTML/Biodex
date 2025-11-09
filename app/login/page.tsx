@@ -1,3 +1,8 @@
+import Image from 'next/image'
+import Head from 'next/head'
+import { House, Box, PawPrint, User } from 'lucide-react';
+import { identifyPlant } from "@/src/plant";    
+import * as auth from "@/src/Firebase/auth";
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -35,9 +40,9 @@ export default function LoginPage() {
           <button type="submit" className="w-full py-2 bg-secondary-container hover:bg-green-800 transition text-white rounded-xl font-semibold">Log In </button>
           <p className="text-center text-sm text-gray-600">
             Don't Have An Account?{" "}
-            <a href="/sign" className="text-secondary-container font-medium hover:underline">
+            <Link href="/sign" className="text-secondary-container font-medium hover:underline">
               Sign Up!
-            </a>
+            </Link>
           </p>
         </form>
       </div>

@@ -1,4 +1,3 @@
-import { Home as HomeIcon, Boxes, Sprout, User, Github } from "lucide-react";
 import { identifyPlant } from "@/src/plant";    
 import * as auth from "@/src/Firebase/auth";
 import Head from 'next/head'

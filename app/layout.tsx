@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Kreon, Poppins } from 'next/font/google'
+import { Kreon, Poppins, Geist_Mono, Geist } from 'next/font/google'
 import "./globals.css";
 
 const geistSans = Geist({

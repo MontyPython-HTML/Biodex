@@ -7,4 +7,5 @@ export interface User {
   level: number;
   pet: Pet;
   plants: Plant[];
+  dexId: string | null;
 }

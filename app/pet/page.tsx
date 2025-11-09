@@ -1,13 +1,69 @@
-import Head from 'next/head'
+"use client";
+
 import { House, Box, PawPrint, User } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import petBkg from '../media/petBkg.png'
+import Head from 'next/head'
 import flamadillo from '../media/flamadillo.gif'
 import flamarillo from '../media/flamarillo.gif'
 import shellblaze from '../media/shellblaze.gif'
+import { useAuth } from '@/src/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { updateDocInFirebase, getUserByUid } from '@/src/Firebase/database';
+import { changeHealth, updateHealth, updateInput } from '@/src/Utils/Math';
 
-function Pet() {
+export default function Pet() {
+  const { firebaseUser, userData, refreshUserData, loading } = useAuth();
+  const router = useRouter();
+  const [processing, setProcessing] = useState(false);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!firebaseUser) {
+    router.push('/login');
+    return null;
+  }
+
+  const handleFeedPet = async () => {
+    if (!userData || processing) return;
+
+    setProcessing(true);
+    try {
+      const totalOutput = userData.plants?.reduce((sum, plant) => sum + plant.output, 0) || 0;
+      const newHealth = changeHealth(userData.pet.input, totalOutput);
+      const updatedHealth = Math.min(100, userData.pet.health + newHealth);
+
+      const fullUserData = await getUserByUid(firebaseUser.uid);
+      if (!fullUserData || !fullUserData.docId) {
+        throw new Error('User data not found');
+      }
+
+      await updateDocInFirebase(fullUserData.docId, "users", {
+        pet: {
+          health: updatedHealth,
+          input: userData.pet.input
+        }
+      });
+
+      await refreshUserData();
+    } catch (error) {
+      console.error('Error feeding pet:', error);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const petHealth = userData?.pet?.health || 100;
+  const petInput = userData?.pet?.input || 10;
+
   return (
     <div className='bg-background w-full h-screen'>
       <Head>
@@ -76,5 +132,3 @@ function Pet() {
     </div>
   );
 }
-
-export default Pet

@@ -1,59 +1,67 @@
 import axios from "axios";
-import * as fs from "fs";
-import FormData from "form-data";
-import { inspect } from "util";
 
-const API_KEY = process.env.PLANT_KEY;
+interface PlantSpecies {
+  scientificName: string;
+  commonNames: string[];
+}
+interface PlantResult {
+  score: number;
+  species: PlantSpecies;
+}
+interface PlantNetResponse {
+  results: PlantResult[];
+  bestMatch: string;
+}
+
+const API_KEY = process.env.NEXT_PUBLIC_PLANT_KEY;
 const PROJECT = "all";
 const api_url = `https://my-api.plantnet.org/v2/identify/${PROJECT}?api-key=${API_KEY}`;
-// const image_path = "../media/test.jpg";
 
-export async function identifyPlant (image_path: string) {
+export interface PlantIdentificationResult {
+  scientificName: string;
+  commonName: string;
+  score: number;
+}
+
+export async function identifyPlant (imageFile: File): Promise<PlantIdentificationResult | null> {
+  if (!API_KEY) {
+    console.error("Error: NEXT_PUBLIC_PLANT_KEY environment variable is not set.");
+    return null;
+  }
+
   const formData = new FormData();
-  const data = { organs: ["auto"] };
-
-  for (const [key, value] of Object.entries(data)) {
-    if (Array.isArray(value)) {
-      value.forEach(item => formData.append(key, item));
-    } else {
-      formData.append(key, value);
-    }
-  }
-
-  try {
-    const image_data = fs.createReadStream(image_path);
-    formData.append("images", image_data, image_path);
-  } catch (error) {
-    console.error(`Error reading file ${image_path}:`, error);
-    return;
-  }
+  formData.append("images", imageFile);
+  formData.append("organs", "auto");
 
   try {
     const response = await axios.post(api_url, formData, {
-      headers: formData.getHeaders()
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }
     });
-    // console.log(response.status);
-    // console.log(inspect(response.data, { depth: null, colors: true }));
 
-    const data = response.data;
+    const data: PlantNetResponse = response.data;
     const bestResult = data.results.find(
-      r => r.species.scientificName === data.bestMatch
+      (r: PlantResult) => r.species.scientificName === data.bestMatch
     );
 
     const bestMatch = data.bestMatch;
     const commonNames = bestResult?.species.commonNames ?? [];
     const commonName = commonNames[0] ?? "Unknown";
+    const score = bestResult?.score ?? 0;
 
-    console.log(`Best match: ${bestMatch}`);
-    console.log(`Common name: ${commonName}`);
+    return {
+      scientificName: bestMatch,
+      commonName: commonName,
+      score: score
+    };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      console.log(error.response.status);
-      console.log(inspect(error.response.data, { depth: null, colors: true }));
+      console.error(`API Error Status: ${error.response.status}`);
+      console.error("API Error Data:", error.response.data);
     } else {
-      console.error("An unknown error occurred:", error);
+      console.error("An unknown error occurred during API call:", error);
     }
+    return null;
   }
 }
-
-// identifyPlant("../media/image_2.jpeg");

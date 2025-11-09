@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Head from 'next/head'
 import { House, Box, PawPrint, User } from 'lucide-react';
-import { identifyPlant } from "@/src/plant";    
 import * as auth from "@/src/Firebase/auth";
 import Link from 'next/link';
 

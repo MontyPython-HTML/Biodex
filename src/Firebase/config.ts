@@ -1,4 +1,4 @@
-'use client'; // Correct
+'use client';
 
 import { initializeApp, getApps, FirebaseApp } from "firebase/app";
 
@@ -89,4 +89,3 @@ export function getFirebaseApp(): FirebaseApp | null {
     return null;
   }
 }
-

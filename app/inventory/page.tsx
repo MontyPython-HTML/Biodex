@@ -28,12 +28,10 @@ export default function Inventory() {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
       
-      // Clean up previous temp URL if exists
       if (tempImageURL) {
         URL.revokeObjectURL(tempImageURL);
       }
       
-      // Create temporary object URL for preview/processing
       const tempURL = URL.createObjectURL(selectedFile);
       setFile(selectedFile);
       setTempImageURL(tempURL);
@@ -42,7 +40,6 @@ export default function Inventory() {
     }
   };
 
-  // Cleanup temp URL on unmount
   useEffect(() => {
     return () => {
       if (tempImageURL) {
@@ -60,27 +57,22 @@ export default function Inventory() {
     setSuccess('');
 
     try {
-      // Step 1: Identify plant using the file (temp URL is already created)
       const identification = await identifyPlant(file);
       if (!identification) {
         throw new Error('Failed to identify plant');
       }
 
-      // Step 2: Upload image to Firebase Storage
       const storagePath = `plants/${firebaseUser.uid}/${Date.now()}_${file.name}`;
       const imageURL = await uploadFile(file, storagePath);
 
-      // Step 3: Clean up temp URL after successful upload
       if (tempImageURL) {
         URL.revokeObjectURL(tempImageURL);
         setTempImageURL(null);
       }
 
-      // Determine rarity based on score
       const rarity = identification.score > 0.8 ? 'rare' : identification.score > 0.5 ? 'uncommon' : 'common';
-      const output = Math.floor(identification.score * 100);
+      const output = Math.floor(identification.score * 10);
 
-      // Create plant object
       const newPlant: Plant = {
         name: identification.commonName,
         rarity: rarity,
@@ -88,10 +80,8 @@ export default function Inventory() {
         pathToStorage: imageURL
       };
 
-      // Update user's plants
       const updatedPlants = [...(userData.plants || []), newPlant];
       
-      // Find the document ID from Firestore
       const fullUserData = await getUserByUid(firebaseUser.uid);
       if (!fullUserData || !fullUserData.docId) {
         throw new Error('User data not found');
@@ -103,7 +93,6 @@ export default function Inventory() {
       setSuccess(`Successfully added ${identification.commonName} to your inventory!`);
       setFile(null);
     } catch (err: any) {
-      // Clean up temp URL even on error
       if (tempImageURL) {
         URL.revokeObjectURL(tempImageURL);
         setTempImageURL(null);

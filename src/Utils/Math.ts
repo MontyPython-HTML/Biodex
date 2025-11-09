@@ -1,11 +1,13 @@
-export function changeHealth(input: number, output: number) {
-  return input * (Math.pow(1, (output / input) - 1));
+export function changeHealth(current: number, target: number) {
+  const ratio = target / current;
+  return current * ratio;
 }
 
 export function updateHealth(previousHealth: number, level: number) {
-  return Math.ceil(previousHealth * (1 + (level / 4)));
+  const growthRate = 0.05;
+  return Math.ceil(previousHealth * (1 + growthRate * level));
 }
 
-export function updateInput(health: number, level: number) {
-  return Math.floor(health / level);
+export function updateInput(totalHealth: number, level: number) {
+  return Math.floor(totalHealth / (1 + 0.05 * level));
 }

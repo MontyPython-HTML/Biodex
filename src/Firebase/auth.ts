@@ -5,10 +5,6 @@ import { getFirebaseApp } from "./config";
 
 let authInstance: Auth | null = null;
 
-/**
- * Get Firebase Auth instance with build guard rails
- * Returns null during build/server-side to prevent crashes
- */
 function getAuthInstance(): Auth | null {
   if (typeof window === 'undefined') {
     return null;
@@ -24,7 +20,6 @@ function getAuthInstance(): Auth | null {
   return authInstance;
 }
 
-// Export auth for backward compatibility (will be null during build)
 export const auth = typeof window !== 'undefined' ? getAuthInstance() : null as any;
 
 export async function createUser (email: string, password: string, username?: string): Promise<FirebaseUser | null> {

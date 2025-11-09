@@ -73,7 +73,6 @@ export default function Pet() {
 
       <div className='flex-1 ml-[69px] p-8'>
         <h1 className="text-4xl font-bold mb-6">Your Pet</h1>
-        
         <div className="grid grid-cols-2 gap-6 mb-6">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Pet Status</h2>

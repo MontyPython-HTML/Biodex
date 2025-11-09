@@ -4,21 +4,18 @@ export interface PlantIdentificationResult {
   score: number
 }
 
-// Client-side function that calls the API route
 export async function identifyPlant (imageFile: File): Promise<PlantIdentificationResult | null> {
   if (!imageFile || !(imageFile instanceof File)) {
     console.error("Invalid file provided");
     return null;
   }
 
-  // Validate MIME type (API only accepts image/jpeg or image/png)
   const validMimeTypes = ["image/jpeg", "image/jpg", "image/png"];
   if (!validMimeTypes.includes(imageFile.type.toLowerCase())) {
     console.error(`Invalid file type: ${imageFile.type}. Only JPEG and PNG are supported.`);
     return null;
   }
 
-  // Validate file size (max 50MB = 52428800 bytes)
   const MAX_FILE_SIZE = 52428800;
   if (imageFile.size > MAX_FILE_SIZE) {
     console.error(`File too large: ${imageFile.size} bytes. Maximum size is ${MAX_FILE_SIZE} bytes (50MB).`);
@@ -31,7 +28,6 @@ export async function identifyPlant (imageFile: File): Promise<PlantIdentificati
   }
 
   try {
-    // Send file to our API route
     const formData = new FormData();
     formData.append("image", imageFile);
 

@@ -51,7 +51,7 @@ export default function Home () {
 
         <div id="signUpPage" ref={signUpRef} className='bg-radial-[at_60%_30%] from-[#424A32] to-inverse-surface bg-cover h-screen w-full bg-right p-35 flex flex-col gap-70 z-500 overflow-x-hidden overflow-y-hidden content-center items-center justify-center pl-[100px] snap-always'>
           <div id="getStartedPage" ref={getStartedRef}className='flex flex-row content-center items-center'>
-            <h1 id="getStartedTitle" className='font-(family-name:--font-kreon) text-[10vmin] text-inverse-on-surface w-150'>Get Started Now!</h1>
+            <h1 id="getStartedTitle" className='font-(family-name:--font-kreon) text-[10vmin] text-inverse-on-surface w-150'>Get Started Today!</h1>
             <div id='signUpSurface' className='w-[35vw] h-[342px] bg-surface-container-high rounded-xl flex flex-col items-center justify-center gap-5'>
               <Link href="/sign"><button className='bg-tertiary-container text-on-tertiary-container w-[30vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] cursor-pointer'>Sign Up</button></Link>
               <h2 className='display-medium'>or</h2>

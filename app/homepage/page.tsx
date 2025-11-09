@@ -49,19 +49,20 @@ export default function Home () {
         </div>
 
 
-        <div id="signUpPage" ref={signUpRef} className='bg-radial-[at_60%_30%] from-[#424A32] to-inverse-surface bg-cover h-screen w-full bg-right p-35 flex flex-col gap-70 z-500 overflow-x-hidden overflow-y-hidden content-center items-center justify-center pl-[100px] snap-always'>
-          <div id="getStartedPage" ref={getStartedRef}className='flex flex-row content-center items-center'>
-            <h1 id="getStartedTitle" className='font-(family-name:--font-kreon) text-[10vmin] text-inverse-on-surface w-150'>Get Started Now!</h1>
-            <div id='signUpSurface' className='w-[35vw] h-[342px] bg-surface-container-high rounded-xl flex flex-col items-center justify-center gap-5'>
-              <Link href="/sign"><button className='bg-tertiary-container text-on-tertiary-container w-[30vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] cursor-pointer'>Sign Up</button></Link>
-              <h2 className='display-medium'>or</h2>
-              <Link href="/login"><button className='bg-tertiary-container text-on-tertiary-container w-[30vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] cursor-pointer'>Log In</button></Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+<div id="signUpPage" ref={signUpRef} className="h-screen w-full bg-radial-[at_60%_30%] from-[#424A32] to-inverse-surface bg-cover flex flex-col items-center justify-center  px-[100px] overflow-hidden snap-always"> <div id="getStartedPage" ref={getStartedRef} className="flex flex-row items-center gap-20"> <h1 id="getStartedTitle" className="font-(family-name:--font-kreon) text-[10vmin] text-inverse-on-surface font-bold drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)]">Get Started Today! </h1>
+<div id="signUpSurface" className="w-[35vw] h-[342px] bg-surface-container-high rounded-2xl shadow-xl flex flex-col items-center justify-center gap-6 backdrop-blur-md border border-white/10">
+<Link href="/sign">
+<button className="bg-tertiary-container text-on-tertiary-container  w-[28vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] hover:scale-105 transition-all duration-200 shadow-md">
+Sign Up</button></Link>
+<h2 className="display-medium text-on-surface-variant">or</h2>
+<Link href="/login"><button className="bg-tertiary-container text-on-tertiary-container w-[28vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] hover:scale-105 transition-all duration-200 shadow-md">Log In</button></Link>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+);
 }
 
 

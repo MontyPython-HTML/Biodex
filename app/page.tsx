@@ -1,6 +1,7 @@
+import Link from 'next/link';
+import Image from 'next/image'
 import Head from 'next/head'
 import { House, Box, PawPrint, User } from 'lucide-react';
-import Link from 'next/link';
 
 export default function Home () {
   return (

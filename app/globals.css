@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 /*Colors*/
 @theme {
   --color-primary: #203100;
@@ -54,7 +53,6 @@
   --color-surface-container-highest: #C6C7BC;
 }
 
-
 /*Text Styles*/
 .display-large {
   font-family: "Kreon", serif;
@@ -78,6 +76,7 @@
   letter-spacing: 0px;
 }
 
+<<<<<<< HEAD
 .headline-large {
   font-family: "Kreon", serif;
   font-weight: regular;
@@ -98,6 +97,13 @@
   font-size: 24px;
   line-height: 32px;
   letter-spacing: 0px;
+=======
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #B2BCAA;
+    --foreground: #ededed;
+  }
+>>>>>>> quentin
 }
 
 .title-large {
@@ -164,4 +170,11 @@
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.5px;
+}
+
+.parallax{
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

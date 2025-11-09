@@ -55,12 +55,7 @@ export default function SignIn() {
             />
           </div>
           <button type="submit" className="w-full py-2 bg-secondary-container hover:bg-green-800 transition text-white rounded-xl font-semibold">Sign Up</button>
-          <p className="text-center text-sm text-gray-600">
-            Already Have An Account?
-            <Link href="/login" className="text-secondary-container font-medium hover:underline">
-              Login!
-            </Link>
-          </p>
+          <p className="text-center text-sm text-gray-600">Already Have An Account? <Link href="/login" className="text-secondary-container font-medium hover:underline">Login!</Link></p>
         </form>
       </div>
     </div>

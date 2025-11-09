@@ -74,12 +74,12 @@ export default function Pet() {
 
       <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center absolute h-screen px-[15px] py-[15px] z-900">
         <section id="topIcons" className='flex flex-col gap-5' color="white">
-          <Link href="/"><House id="homeBtn" className='w-[39px] h-[39px] text-white'/> </Link> 
+          <Link href="/homepage"><House id="homeBtn" className='w-[39px] h-[39px] text-white'/> </Link> 
           <Link href="/pet"><PawPrint id="petBtn" className='w-[39px] h-[39px] text-inverse-primary'/></Link> 
           <Link href="/inventory"><Box id="inventoryBtn" className='w-[39px] h-[39px] text-white'/></Link> 
         </section>
         <section id="profile">
-          <Link href="/profile"></Link><User id="profileBtn" className='w-[39px] h-[39px]' color="white"/>
+          <Link href="/profile"><User id="profileBtn" className='w-[39px] h-[39px]' color="white"/></Link>
         </section>
       </nav>
 

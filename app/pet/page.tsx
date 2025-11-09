@@ -1,6 +1,11 @@
 import Head from 'next/head'
 import { House, Box, PawPrint, User } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+import petBkg from '../media/petBkg.png'
+import flamadillo from '../media/flamadillo.gif'
+import flamarillo from '../media/flamarillo.gif'
+import shellblaze from '../media/shellblaze.gif'
 
 function Pet() {
   return (
@@ -11,20 +16,63 @@ function Pet() {
         <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"></link>
       </Head>
 
-      <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center absolute h-screen px-[15px] py-[15px]">
+      <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center absolute h-screen px-[15px] py-[15px] z-900">
         <section id="topIcons" className='flex flex-col gap-5' color="white">
-          <Link href="/"><House id="homeBtn" className='w-[39px] h-[39px]' color='white'/> </Link> 
+          <Link href="/"><House id="homeBtn" className='w-[39px] h-[39px] text-white'/> </Link> 
           <Link href="/pet"><PawPrint id="petBtn" className='w-[39px] h-[39px] text-inverse-primary'/></Link> 
-          <Link href="/Inventory"><Box id="inventoryBtn" className='w-[39px] h-[39px]' color="white"/></Link> 
+          <Link href="/inventory"><Box id="inventoryBtn" className='w-[39px] h-[39px] text-white'/></Link> 
         </section>
         <section id="profile">
           <Link href="/profile"></Link><User id="profileBtn" className='w-[39px] h-[39px]' color="white"/>
         </section>
       </nav>
 
-      <div id='petPage' className='bg-[url(./media/petBkg.png)] bg-cover bg-center bg-fixed w-screen h-screen'>
+      <Image src={petBkg} alt="Pixel art forest background" className='w-full absolute z-0 image-rendering-pixelated h-screen overflow-hidden'/>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Image src={flamadillo} alt="Flamadillo" className='w-[45vmin] overflow-hidden image-rendering-pixelated' />
       </div>
 
+      <div className='absolute bottom-0 right-0 w-[40%] h-[30%] rounded-tl-xl z-800 bg-surface-container-highest p-5 flex flex-col gap-5'>
+        <h1 className='headline-large'>Pet Stats</h1>
+        <h2 className='title-large'>Health</h2>
+        <div className="w-full h-[10%] bg-gray-200 rounded-full dark:bg-gray-700">
+          <div className="h-full bg-red-500 rounded-full w-[90%]"></div>
+        </div>
+
+        <h2 className='title-large'>EXP</h2>
+        <div className="w-full h-[10%] bg-gray-200 rounded-full dark:bg-gray-700">
+          <div className="h-full bg-inverse-primary rounded-full w-[90%]"></div>
+        </div>
+      </div>
+
+      <div id="plantBar" className='absolute bottom-0 w-[60vw] h-[23%] z-799 bg-surface-container-high flex flex-row justify-start p-2 pl-20 overflow-x-auto gap-4 left-1 '>
+        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0">
+          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
+          <div>
+            <h3 className="headline-medium">Plant Name</h3>
+            <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
+            <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+          </div>
+        </div> 
+
+        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0">
+          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
+          <div>
+            <h3 className="headline-medium">Plant Name</h3>
+            <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
+            <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+          </div>
+        </div>
+
+        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0">
+          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
+          <div>
+            <h3 className="headline-medium">Plant Name</h3>
+            <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
+            <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+          </div>
+        </div> 
+      </div>
     </div>
   );
 }

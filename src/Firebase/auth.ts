@@ -25,7 +25,8 @@ export async function createUser (email:string, password:string) {
         id: userCredential.user.uid,
         username: userCredential.user.displayName,
         level: 1,
-        pet: { health: 100, input: 10 }, 
+        pet: { health: 100, input: 10 },
+        plants: [],
         dexId: null,
       }
       database.addToFirebase(newUser, "users")

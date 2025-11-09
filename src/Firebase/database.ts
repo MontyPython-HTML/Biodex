@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { addDoc, collection, doc, deleteDoc, updateDoc, getDocs, getDoc, getFirestore } from "firebase/firestore";
+import { User } from "@/src/Models/User";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_KEY,
@@ -15,28 +16,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
 
-export async function addToFirebase (object, table) {
+export async function addToFirebase (object: User, table: string) {
   await addDoc(collection(database, table), object)
     .catch(error => { console.error(error); });
 }
 
-export async function deleteFromFirebase (docId, table) {
+export async function deleteFromFirebase (docId: string, table: string) {
   await deleteDoc(doc(database, table, docId))
     .catch(error => { console.error(error); });
 }
 
-export async function upsertToFirebase (objectId, table, newObject) {
+export async function upsertToFirebase (objectId: string, table: string, newObject: User) {
   const reference = doc(database, table, objectId);
   await updateDoc(reference, newObject)
     .catch(error => { console.error(error); });
 }
 
-export async function getAllDocsFromFirebase (table) {
+export async function getAllDocsFromFirebase (table: string) {
   const references = collection(database, table);
   return await getDocs(references);
 }
 
-export async function getDocFromFirebase (docId, table) {
+export async function getDocFromFirebase (docId: string, table: string) {
   const docSnap = await getDoc(doc(database, table, docId));
 
   if (docSnap.exists()) {

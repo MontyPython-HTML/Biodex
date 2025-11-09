@@ -10,13 +10,12 @@ const firebaseConfig = {
   appId: process.env.APP_ID,
   measurementId: process.env.MEASUREMENT_ID,
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  storageBucket: process.env.BUCKET_NAME
 };
 
 const app = initializeApp(firebaseConfig)
 const storage = getStorage(app)
 
-export async function addImageToStorage(img: Image) {
+export async function addImageToStorage(img: String) {
   const storageRef = ref(storage, img);
 
   uploadBytes(storageRef, file)

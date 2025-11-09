@@ -66,7 +66,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-gray-600">
             Already Have An Account?{" "}
-            <a href="http://localhost:3000/Login" className="text-secondary-container font-medium hover:underline">
+            <a href="http://localhost:3000/login" className="text-secondary-container font-medium hover:underline">
               Login!
             </a>
           </p>

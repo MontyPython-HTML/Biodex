@@ -3,7 +3,7 @@ import { Plant } from '@/src/Models/Plant'
 
 export interface User {
   id: string;
-  username: string;
+  username: string | null;
   level: number;
   pet: Pet;
   plants: Plant[];

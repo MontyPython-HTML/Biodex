@@ -45,3 +45,5 @@ export default function Home () {
     </div>
   );
 }
+
+console.log(process.env.NEXT_PUBLIC_FIREBASE_KEY);

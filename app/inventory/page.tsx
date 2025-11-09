@@ -89,7 +89,7 @@ export default function Inventory() {
         <section className="flex flex-col gap-5">
           <Link href="/homepage"><House className="w-[39px] h-[39px] text-inverse-primary" /></Link>
           <Link href="/pet"><PawPrint className="w-[39px] h-[39px] text-white" /></Link>
-          <Link href="/inventory"><Box className="w-[39px] h-[39px] text-inverse-primary" /></Link>
+          <Link href="/inventory"><Box className="w-[39px] h-[39px]text-white " /></Link>
         </section>
         <section>
           <User className="w-[39px] h-[39px] text-white" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/src/contexts/AuthContext';
 import { identifyPlant } from '@/src/plant';
 import { uploadFile } from '@/src/Firebase/storage';
@@ -13,6 +13,7 @@ import Link from 'next/link';
 export default function Inventory() {
   const { firebaseUser, userData, refreshUserData } = useAuth();
   const [file, setFile] = useState<File | null>(null);
+  const [tempImageURL, setTempImageURL] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -25,11 +26,30 @@ export default function Inventory() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      
+      // Clean up previous temp URL if exists
+      if (tempImageURL) {
+        URL.revokeObjectURL(tempImageURL);
+      }
+      
+      // Create temporary object URL for preview/processing
+      const tempURL = URL.createObjectURL(selectedFile);
+      setFile(selectedFile);
+      setTempImageURL(tempURL);
       setError('');
       setSuccess('');
     }
   };
+
+  // Cleanup temp URL on unmount
+  useEffect(() => {
+    return () => {
+      if (tempImageURL) {
+        URL.revokeObjectURL(tempImageURL);
+      }
+    };
+  }, [tempImageURL]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,15 +60,21 @@ export default function Inventory() {
     setSuccess('');
 
     try {
-      // Identify plant
+      // Step 1: Identify plant using the file (temp URL is already created)
       const identification = await identifyPlant(file);
       if (!identification) {
         throw new Error('Failed to identify plant');
       }
 
-      // Upload image to storage
+      // Step 2: Upload image to Firebase Storage
       const storagePath = `plants/${firebaseUser.uid}/${Date.now()}_${file.name}`;
       const imageURL = await uploadFile(file, storagePath);
+
+      // Step 3: Clean up temp URL after successful upload
+      if (tempImageURL) {
+        URL.revokeObjectURL(tempImageURL);
+        setTempImageURL(null);
+      }
 
       // Determine rarity based on score
       const rarity = identification.score > 0.8 ? 'rare' : identification.score > 0.5 ? 'uncommon' : 'common';
@@ -77,6 +103,11 @@ export default function Inventory() {
       setSuccess(`Successfully added ${identification.commonName} to your inventory!`);
       setFile(null);
     } catch (err: any) {
+      // Clean up temp URL even on error
+      if (tempImageURL) {
+        URL.revokeObjectURL(tempImageURL);
+        setTempImageURL(null);
+      }
       setError(err.message || 'Failed to process plant');
     } finally {
       setLoading(false);
@@ -87,7 +118,7 @@ export default function Inventory() {
     <div className="min-h-screen bg-background flex">
       <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center fixed h-screen px-[15px] py-[15px] z-900">
         <section className="flex flex-col gap-5">
-          <Link href="/homepage"><House className="w-[39px] h-[39px] text-inverse-primary" /></Link>
+          <Link href="/homepage"><House className="w-[39px] h-[39px] text-white" /></Link>
           <Link href="/pet"><PawPrint className="w-[39px] h-[39px] text-white" /></Link>
           <Link href="/inventory"><Box className="w-[39px] h-[39px] text-inverse-primary" /></Link>
         </section>
@@ -107,11 +138,24 @@ export default function Inventory() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png"
               onChange={handleFileChange}
               className="border border-gray-300 rounded p-2 cursor-pointer"
               required
             />
+            
+            {/* Preview of temp image */}
+            {tempImageURL && (
+              <div className="mt-2">
+                <p className="text-sm text-gray-600 mb-2">Preview (temporary):</p>
+                <img 
+                  src={tempImageURL} 
+                  alt="Plant preview" 
+                  className="max-w-xs max-h-48 object-cover rounded border border-gray-300"
+                />
+              </div>
+            )}
+            
             <button
               type="submit"
               disabled={loading || !file}

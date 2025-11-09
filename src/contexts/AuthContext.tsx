@@ -7,15 +7,15 @@ import { getUserByUid } from "@/src/Firebase/database";
 import { User } from "@/src/Models/User";
 
 interface AuthContextType {
-  firebaseUser: FirebaseUser | null;
-  userData: User | null;
-  loading: boolean;
-  refreshUserData: () => Promise<void>;
+  firebaseUser: FirebaseUser | null
+  userData: User | null
+  loading: boolean
+  refreshUserData: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider ({ children }: { children: React.ReactNode }) {
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (firebaseUser) {
       const data = await getUserByUid(firebaseUser.uid);
       if (data) {
-        const { docId, ...userData } = data;
+        const { ...userData } = data;
         setUserData(userData);
       } else {
         setUserData(null);
@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (user) {
         const data = await getUserByUid(user.uid);
         if (data) {
-          const { docId, ...userData } = data;
+          const { ...userData } = data;
           setUserData(userData);
         } else {
           setUserData(null);
@@ -68,4 +68,3 @@ export function useAuth() {
   }
   return context;
 }
-

@@ -34,7 +34,7 @@ export default function Pet() {
       const totalOutput = userData.plants?.reduce((sum, plant) => sum + plant.output, 0) || 0;
       const newHealth = changeHealth(userData.pet.input, totalOutput);
       const updatedHealth = Math.min(100, userData.pet.health + newHealth);
-      
+
       const fullUserData = await getUserByUid(firebaseUser.uid);
       if (!fullUserData || !fullUserData.docId) {
         throw new Error('User data not found');
@@ -62,7 +62,7 @@ export default function Pet() {
     <div className='bg-background w-full min-h-screen'>
       <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center fixed h-screen px-[15px] py-[15px] z-900">
         <section className='flex flex-col gap-5'>
-          <Link href="/homepage"><House className='w-[39px] h-[39px] text-inverse-primary' /></Link>
+          <Link href="/homepage"><House className='w-[39px] h-[39px] text-white' /></Link>
           <Link href="/pet"><PawPrint className='w-[39px] h-[39px] text-inverse-primary' /></Link>
           <Link href="/inventory"><Box className='w-[39px] h-[39px] text-white' /></Link>
         </section>

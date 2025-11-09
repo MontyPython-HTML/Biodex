@@ -20,11 +20,11 @@ export const auth = getAuth(app);
 export async function createUser (email: string, password: string, username?: string): Promise<FirebaseUser | null> {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    
+
     if (username && userCredential.user) {
       await updateProfile(userCredential.user, { displayName: username });
     }
-    
+
     const newUser: User = {
       id: userCredential.user.uid,
       username: username || null,
@@ -33,7 +33,7 @@ export async function createUser (email: string, password: string, username?: st
       plants: [],
       dexId: null
     };
-    
+
     await database.addToFirebase(newUser, "users");
     return userCredential.user;
   } catch (error) {

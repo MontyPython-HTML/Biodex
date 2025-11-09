@@ -1,4 +1,4 @@
 export interface Pet {
-  health: number;
-  input: number;
+  health: number
+  input: number
 }

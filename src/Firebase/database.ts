@@ -52,7 +52,7 @@ export async function getDocFromFirebase (docId: string, table: string) {
 export async function getUserByUid (uid: string): Promise<(User & { docId: string }) | null> {
   const q = query(collection(database, "users"), where("id", "==", uid));
   const querySnapshot = await getDocs(q);
-  
+
   if (!querySnapshot.empty) {
     const docSnapshot = querySnapshot.docs[0];
     return { ...docSnapshot.data(), docId: docSnapshot.id } as User & { docId: string };

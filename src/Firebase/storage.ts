@@ -4,10 +4,6 @@ import { getFirebaseApp } from "./config";
 
 let storageInstance: FirebaseStorage | null = null;
 
-/**
- * Get Firebase Storage instance with build guard rails
- * Returns null during build/server-side to prevent crashes
- */
 function getStorageInstance(): FirebaseStorage | null {
   if (typeof window === 'undefined') {
     return null;

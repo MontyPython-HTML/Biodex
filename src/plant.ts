@@ -44,11 +44,9 @@ export async function identifyPlant (imageFile: File): Promise<PlantIdentificati
       const errorData = await response.json().catch(() => ({}));
       console.error(`API Error Status: ${response.status}`);
       console.error("API Error Data:", errorData);
-      
       if (response.status === 403) {
         console.error("403 Forbidden - Check your PLANT_KEY in .env file");
       }
-      
       return null;
     }
 

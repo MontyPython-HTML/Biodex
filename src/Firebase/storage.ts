@@ -1,27 +1,42 @@
-import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getStorage, Storage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getFirebaseApp } from "./config";
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_KEY,
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-  databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
-  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-  appId: process.env.NEXT_PUBLIC_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
-  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID
-};
+let storageInstance: Storage | null = null;
 
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
+/**
+ * Get Firebase Storage instance with build guard rails
+ * Returns null during build/server-side to prevent crashes
+ */
+function getStorageInstance(): Storage | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  if (!storageInstance) {
+    const app = getFirebaseApp();
+    if (!app) {
+      return null;
+    }
+    storageInstance = getStorage(app);
+  }
+  return storageInstance;
+}
 
 export async function uploadFile (file: File, path: string): Promise<string> {
+  const storage = getStorageInstance();
+  if (!storage) {
+    throw new Error("Firebase Storage is not available. Check your environment variables.");
+  }
   const storageRef = ref(storage, path);
   await uploadBytes(storageRef, file);
   return await getDownloadURL(storageRef);
 }
 
 export async function uploadFileWithProgress (file: File, path: string, onProgress?: (progress: number) => void): Promise<string> {
+  const storage = getStorageInstance();
+  if (!storage) {
+    throw new Error("Firebase Storage is not available. Check your environment variables.");
+  }
   const storageRef = ref(storage, path);
   const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -42,6 +57,10 @@ export async function uploadFileWithProgress (file: File, path: string, onProgre
 }
 
 export async function getFileURL (path: string): Promise<string> {
+  const storage = getStorageInstance();
+  if (!storage) {
+    throw new Error("Firebase Storage is not available. Check your environment variables.");
+  }
   const storageRef = ref(storage, path);
   return await getDownloadURL(storageRef);
 }

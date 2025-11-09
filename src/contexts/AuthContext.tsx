@@ -35,6 +35,12 @@ export function AuthProvider ({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    // Guard: Only run on client-side and if auth is available
+    if (typeof window === 'undefined' || !auth) {
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setFirebaseUser(user);
       if (user) {

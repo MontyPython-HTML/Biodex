@@ -1,44 +1,74 @@
-import { initializeApp } from "firebase/app";
-import { addDoc, collection, doc, deleteDoc, getDocs, getDoc, getFirestore, updateDoc, query, where } from "firebase/firestore";
+import { getFirestore, Firestore, addDoc, collection, doc, deleteDoc, getDocs, getDoc, updateDoc, query, where } from "firebase/firestore";
 import { User } from "@/src/Models/User";
+import { getFirebaseApp } from "./config";
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_KEY,
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-  databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
-  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-  appId: process.env.NEXT_PUBLIC_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
-  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID
-};
+let databaseInstance: Firestore | null = null;
 
-const app = initializeApp(firebaseConfig);
-const database = getFirestore(app);
+/**
+ * Get Firestore instance with build guard rails
+ * Returns null during build/server-side to prevent crashes
+ */
+function getDatabase(): Firestore | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  if (!databaseInstance) {
+    const app = getFirebaseApp();
+    if (!app) {
+      return null;
+    }
+    databaseInstance = getFirestore(app);
+  }
+  return databaseInstance;
+}
 
 export async function addToFirebase (object: User, table: string) {
-  await addDoc(collection(database, table), object)
+  const db = getDatabase();
+  if (!db) {
+    console.error("Firebase Database is not available. Check your environment variables.");
+    return;
+  }
+  await addDoc(collection(db, table), object)
     .catch(error => { console.error(error); });
 }
 
 export async function deleteFromFirebase (docId: string, table: string) {
-  await deleteDoc(doc(database, table, docId))
+  const db = getDatabase();
+  if (!db) {
+    console.error("Firebase Database is not available. Check your environment variables.");
+    return;
+  }
+  await deleteDoc(doc(db, table, docId))
     .catch(error => { console.error(error); });
 }
 
 export async function updateDocInFirebase (docId: string, table: string, updates: Partial<User>) {
-  const reference = doc(database, table, docId);
+  const db = getDatabase();
+  if (!db) {
+    console.error("Firebase Database is not available. Check your environment variables.");
+    return;
+  }
+  const reference = doc(db, table, docId);
   await updateDoc(reference, updates as any)
     .catch(error => { console.error(error); });
 }
 
 export async function getAllDocsFromFirebase (table: string) {
-  const references = collection(database, table);
+  const db = getDatabase();
+  if (!db) {
+    throw new Error("Firebase Database is not available. Check your environment variables.");
+  }
+  const references = collection(db, table);
   return await getDocs(references);
 }
 
 export async function getDocFromFirebase (docId: string, table: string) {
-  const docSnap = await getDoc(doc(database, table, docId));
+  const db = getDatabase();
+  if (!db) {
+    throw new Error("Firebase Database is not available. Check your environment variables.");
+  }
+  const docSnap = await getDoc(doc(db, table, docId));
 
   if (docSnap.exists()) {
     return ({
@@ -50,7 +80,12 @@ export async function getDocFromFirebase (docId: string, table: string) {
 }
 
 export async function getUserByUid (uid: string): Promise<(User & { docId: string }) | null> {
-  const q = query(collection(database, "users"), where("id", "==", uid));
+  const db = getDatabase();
+  if (!db) {
+    console.error("Firebase Database is not available. Check your environment variables.");
+    return null;
+  }
+  const q = query(collection(db, "users"), where("id", "==", uid));
   const querySnapshot = await getDocs(q);
 
   if (!querySnapshot.empty) {

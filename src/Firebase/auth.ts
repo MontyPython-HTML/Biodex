@@ -1,23 +1,38 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User as FirebaseUser, updateProfile } from "firebase/auth";
+import { getAuth, Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User as FirebaseUser, updateProfile } from "firebase/auth";
 import { User } from "@/src/Models/User";
 import * as database from "@/src/Firebase/database";
+import { getFirebaseApp } from "./config";
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_KEY,
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-  databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
-  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-  appId: process.env.NEXT_PUBLIC_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
-  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID
-};
+let authInstance: Auth | null = null;
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+/**
+ * Get Firebase Auth instance with build guard rails
+ * Returns null during build/server-side to prevent crashes
+ */
+function getAuthInstance(): Auth | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  if (!authInstance) {
+    const app = getFirebaseApp();
+    if (!app) {
+      return null;
+    }
+    authInstance = getAuth(app);
+  }
+  return authInstance;
+}
+
+// Export auth for backward compatibility (will be null during build)
+export const auth = typeof window !== 'undefined' ? getAuthInstance() : null as any;
 
 export async function createUser (email: string, password: string, username?: string): Promise<FirebaseUser | null> {
+  const auth = getAuthInstance();
+  if (!auth) {
+    throw new Error("Firebase Auth is not available. Check your environment variables.");
+  }
+
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -43,6 +58,11 @@ export async function createUser (email: string, password: string, username?: st
 }
 
 export async function signIn (email: string, password: string): Promise<FirebaseUser | null> {
+  const auth = getAuthInstance();
+  if (!auth) {
+    throw new Error("Firebase Auth is not available. Check your environment variables.");
+  }
+
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential.user;
@@ -53,6 +73,11 @@ export async function signIn (email: string, password: string): Promise<Firebase
 }
 
 export async function logout (): Promise<void> {
+  const auth = getAuthInstance();
+  if (!auth) {
+    throw new Error("Firebase Auth is not available. Check your environment variables.");
+  }
+
   try {
     await signOut(auth);
   } catch (error) {
@@ -62,7 +87,8 @@ export async function logout (): Promise<void> {
 }
 
 export function getCurrentUser (): FirebaseUser | null {
-  return auth.currentUser;
+  const auth = getAuthInstance();
+  return auth?.currentUser || null;
 }
 
 export { onAuthStateChanged };

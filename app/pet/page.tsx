@@ -63,7 +63,6 @@ export default function Pet() {
   const petHealth = userData?.pet?.health || 100;
   const petInput = userData?.pet?.input || 10;
 
-
   return (
     <div className='bg-background w-full h-screen'>
       <Head>
@@ -101,31 +100,40 @@ export default function Pet() {
         </div>
       </div>
 
-      <div id="plantBar" className='absolute bottom-0 w-[60vw] h-[23%] z-799 bg-surface-container-high flex flex-row justify-start p-2 pl-20 overflow-x-auto gap-4 left-1 '>
-        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0">
+      <div id="plantBar" className='absolute bottom-0 w-[60vw] h-[23%] z-799 bg-surface-container flex flex-row justify-start p-2 pl-20 overflow-x-auto gap-4 left-1 '>
+        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0 bg-surface-container-high">
           <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
-          <div>
-            <h3 className="headline-medium">Plant Name</h3>
-            <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
-            <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+          <div className='flex flex-col content-start'>
+            <section>
+              <h3 className="headline-medium">Plant Name</h3>
+              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
+              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+            </section>
+            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
           </div>
         </div> 
 
-        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0">
+        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0 bg-surface-container-high">
           <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
-          <div>
-            <h3 className="headline-medium">Plant Name</h3>
-            <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
-            <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+          <div className='flex flex-col content-start'>
+            <section>
+              <h3 className="headline-medium">Plant Name</h3>
+              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
+              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+            </section>
+            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
           </div>
         </div>
 
-        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0">
+        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0 bg-surface-container-high">
           <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
-          <div>
-            <h3 className="headline-medium">Plant Name</h3>
-            <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
-            <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+          <div className='flex flex-col content-start'>
+            <section>
+              <h3 className="headline-medium">Plant Name</h3>
+              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
+              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+            </section>
+            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
           </div>
         </div> 
       </div>

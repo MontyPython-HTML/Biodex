@@ -4,6 +4,7 @@ export interface PlantIdentificationResult {
   score: number
 }
 
+// Client-side function that calls the API route
 export async function identifyPlant (imageFile: File): Promise<PlantIdentificationResult | null> {
   if (!imageFile || !(imageFile instanceof File)) {
     console.error("Invalid file provided");

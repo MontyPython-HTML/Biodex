@@ -6,11 +6,6 @@ import gsap from "gsap";
 import { House, PawPrint, Box, User } from "lucide-react";
 import Link from "next/link";
 
-
-
-
-
-
 export default function Profile() {
 useEffect(() => {
     gsap.from(healthRef.current, { x: -200, opacity: 0, duration: 1.5, ease: "power2.out" });

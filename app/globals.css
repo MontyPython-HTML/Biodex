@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 57d5246 (signin and login)
 /*Colors*/
 @theme {
   --color-primary: #203100;
@@ -177,5 +173,4 @@
 
 body::-webkit-scrollbar {
   display: none; /* Hides the scrollbar */
-}
 }

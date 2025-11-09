@@ -3,12 +3,29 @@ import * as fs from "fs";
 import FormData from "form-data";
 import { inspect } from "util";
 
+interface PlantSpecies {
+  scientificName: string;
+  commonNames: string[];
+}
+interface PlantResult {
+  score: number;
+  species: PlantSpecies;
+}
+interface PlantNetResponse {
+  results: PlantResult[];
+  bestMatch: string;
+}
+
 const API_KEY = process.env.PLANT_KEY;
 const PROJECT = "all";
 const api_url = `https://my-api.plantnet.org/v2/identify/${PROJECT}?api-key=${API_KEY}`;
-// const image_path = "../media/test.jpg";
 
-export async function identifyPlant (image_path: string) {
+export async function identifyPlant (image_path: string): Promise<void> {
+  if (!API_KEY) {
+    console.error("Error: PLANT_KEY environment variable is not set.");
+    return;
+  }
+
   const formData = new FormData();
   const data = { organs: ["auto"] };
 
@@ -32,28 +49,24 @@ export async function identifyPlant (image_path: string) {
     const response = await axios.post(api_url, formData, {
       headers: formData.getHeaders()
     });
-    // console.log(response.status);
-    // console.log(inspect(response.data, { depth: null, colors: true }));
 
-    const data = response.data;
+    const data: PlantNetResponse = response.data;
     const bestResult = data.results.find(
-      r => r.species.scientificName === data.bestMatch
+      (r: PlantResult) => r.species.scientificName === data.bestMatch
     );
 
     const bestMatch = data.bestMatch;
     const commonNames = bestResult?.species.commonNames ?? [];
     const commonName = commonNames[0] ?? "Unknown";
 
-    console.log(`Best match: ${bestMatch}`);
+    console.log(`Best match (Scientific): ${bestMatch}`);
     console.log(`Common name: ${commonName}`);
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      console.log(error.response.status);
-      console.log(inspect(error.response.data, { depth: null, colors: true }));
+      console.error(`API Error Status: ${error.response.status}`);
+      console.error(inspect(error.response.data, { depth: null, colors: true }));
     } else {
-      console.error("An unknown error occurred:", error);
+      console.error("An unknown error occurred during API call:", error);
     }
   }
 }
-
-// identifyPlant("../media/image_2.jpeg");

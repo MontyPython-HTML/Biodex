@@ -18,8 +18,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 
-export async function createUser (email, password) {
-  createUserWithEmailAndPassword(auth, email, password)
+export async function createUser (email:string, password:string) {
+  createUserWithEmailAndPassword(auth,email, password)
     .then(userCredential => {
       let newUser: User = {
         id: userCredential.user.uid,
@@ -33,7 +33,7 @@ export async function createUser (email, password) {
     .catch(error => { console.error(error) })
 }
 
-export async function signIn (email, password) {
+export async function signIn (email:string, password:string,) {
   signInWithEmailAndPassword(auth, email, password)
     .catch(error => { console.error(error) })
 }

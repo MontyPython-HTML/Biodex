@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/src/contexts/AuthContext';
 import { identifyPlant } from '@/src/plant';
 import { uploadFile } from '@/src/Firebase/storage';
@@ -9,6 +9,7 @@ import { Plant } from '@/src/Models/Plant';
 import { useRouter } from 'next/navigation';
 import { House, Box, PawPrint, User } from 'lucide-react';
 import Link from 'next/link';
+import { GetPlantInfo } from '@/src/Utils/Scraper';
 
 export default function Inventory() {
   const { firebaseUser, userData, refreshUserData } = useAuth();
@@ -16,6 +17,8 @@ export default function Inventory() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [plantDescriptions, setPlantDescriptions] = useState<Record<number, string>>({});
+  const [loadingDescriptions, setLoadingDescriptions] = useState<Record<number, boolean>>({});
   const router = useRouter();
 
   if (!firebaseUser) {
@@ -83,13 +86,58 @@ export default function Inventory() {
     }
   };
 
+  useEffect(() => {
+    const fetchDescriptions = async () => {
+      if (!userData?.plants) return;
+
+      const plantsToFetch: Array<{ index: number; name: string }> = [];
+
+      userData.plants.forEach((plant, index) => {
+        if (plantDescriptions[index] || plant.description) {
+          if (plant.description && !plantDescriptions[index]) {
+            setPlantDescriptions(prev => ({ ...prev, [index]: plant.description! }));
+          }
+          return;
+        }
+
+        if (loadingDescriptions[index]) {
+          return;
+        }
+
+        plantsToFetch.push({ index, name: plant.name });
+      });
+
+      plantsToFetch.forEach(async ({ index, name }) => {
+        setLoadingDescriptions(prev => ({ ...prev, [index]: true }));
+
+        try {
+          const description = await GetPlantInfo(name);
+          if (description) {
+            setPlantDescriptions(prev => ({ ...prev, [index]: description }));
+          }
+        } catch (error) {
+          console.error(`Error fetching description for ${name}:`, error);
+        } finally {
+          setLoadingDescriptions(prev => {
+            const newState = { ...prev };
+            delete newState[index];
+            return newState;
+          });
+        }
+      });
+    };
+
+    fetchDescriptions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData?.plants]);
+
   return (
     <div className="min-h-screen bg-background flex">
-      <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center fixed h-screen px-[15px] py-[15px] z-900">
+      <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center fixed h-screen px-[15px] py-[15px] z-[900]">
         <section className="flex flex-col gap-5">
           <Link href="/homepage"><House className="w-[39px] h-[39px] text-inverse-primary" /></Link>
           <Link href="/pet"><PawPrint className="w-[39px] h-[39px] text-white" /></Link>
-          <Link href="/inventory"><Box className="w-[39px] h-[39px]text-white " /></Link>
+          <Link href="/inventory"><Box className="w-[39px] h-[39px] text-white " /></Link>
         </section>
         <section>
           <User className="w-[39px] h-[39px] text-white" />
@@ -126,11 +174,18 @@ export default function Inventory() {
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Your Plants ({userData?.plants?.length || 0})</h2>
           <div className="grid grid-cols-3 gap-4">
             {userData?.plants?.map((plant, index) => (
-              <div key={index} className="border rounded-lg p-4">
+              <div key={index} className="border rounded-lg p-4 flex flex-col">
                 <img src={plant.pathToStorage} alt={plant.name} className="w-full h-48 object-cover rounded mb-2" />
                 <h3 className="font-semibold">{plant.name}</h3>
                 <p className="text-sm text-gray-600">Rarity: {plant.rarity}</p>
                 <p className="text-sm text-gray-600">Output: {plant.output}</p>
+                {loadingDescriptions[index] ? (
+                  <p className="text-xs text-gray-400 mt-2 italic">Loading description...</p>
+                ) : (plantDescriptions[index] || plant.description) ? (
+                  <p className="text-xs text-gray-500 mt-2 line-clamp-3">
+                    {plantDescriptions[index] || plant.description}
+                  </p>
+                ) : null}
               </div>
             ))}
             {(!userData?.plants || userData.plants.length === 0) && (

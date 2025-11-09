@@ -33,42 +33,18 @@ return (
           <h3> HP: <HealthBar value={85} /></h3>
         </div>
         <div id="plantContainer" className="flex flex-row flex-wrap w-[80%] h-full mt-10 py-5 px-8 bg-surface-container-highest rounded-lg overflow-y-auto gap-10">
-          
-          <div className="flex flex-row border rounded-lg p-4 w-96 h-40 shrink-0 bg-surface-container-high">
-          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
-          <div className='flex flex-col content-start'>
-            <section>
-              <h3 className="headline-medium">Plant Name</h3>
-              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
-              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
-            </section>
-            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
-          </div>
-        </div>
 
-        <div className="flex flex-row border rounded-lg p-4 w-96 h-40 shrink-0 bg-surface-container-high">
-          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
-          <div className='flex flex-col content-start'>
-            <section>
-              <h3 className="headline-medium">Plant Name</h3>
-              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
-              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
-            </section>
-            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
-          </div>
-        </div>
-
-        <div className="flex flex-row border rounded-lg p-4 w-96 h-40 shrink-0 bg-surface-container-high">
-          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
-          <div className='flex flex-col content-start'>
-            <section>
-              <h3 className="headline-medium">Plant Name</h3>
-              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
-              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
-            </section>
-            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
-          </div>
-        </div>
+          {userData?.plants?.map((plant, index) => (
+              <div key={index} className="border rounded-lg p-4">
+                <img src={plant.pathToStorage} alt={plant.name} className="w-full h-48 object-cover rounded mb-2" />
+                <h3 className="font-semibold">{plant.name}</h3>
+                <p className="text-sm text-gray-600">Rarity: {plant.rarity}</p>
+                <p className="text-sm text-gray-600">Output: {plant.output}</p>
+              </div>
+            ))}
+            {(!userData?.plants || userData.plants.length === 0) && (
+              <p className="text-gray-500 col-span-3">No plants yet. Upload an image to get started!</p>
+            )}
 
         </div>
       </div>

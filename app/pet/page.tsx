@@ -18,6 +18,7 @@ export default function Pet() {
   const { firebaseUser, userData, refreshUserData, loading } = useAuth();
   const router = useRouter();
   const [processing, setProcessing] = useState(false);
+  const [processingPlantIndex, setProcessingPlantIndex] = useState<number | null>(null);
 
   if (loading) {
     return (
@@ -39,7 +40,8 @@ export default function Pet() {
     try {
       const totalOutput = userData.plants?.reduce((sum, plant) => sum + plant.output, 0) || 0;
       const newHealth = changeHealth(userData.pet.input, totalOutput);
-      const updatedHealth = Math.min(100, userData.pet.health + newHealth);
+      const maxHP = 100 + (userData.level * 10);
+      const updatedHealth = Math.min(maxHP, userData.pet.health + newHealth);
 
       const fullUserData = await getUserByUid(firebaseUser.uid);
       if (!fullUserData || !fullUserData.docId) {
@@ -61,20 +63,69 @@ export default function Pet() {
     }
   };
 
+  const handleFeedPlant = async (plantIndex: number) => {
+    if (!userData || processingPlantIndex !== null || !userData.plants || plantIndex < 0 || plantIndex >= userData.plants.length) return;
+
+    setProcessingPlantIndex(plantIndex);
+    try {
+      const plant = userData.plants[plantIndex];
+      
+      const currentMaxHP = 100 + (userData.level * 10);
+      
+      const healthGain = Math.min(plant.output, currentMaxHP - userData.pet.health);
+      const updatedHealth = Math.min(currentMaxHP, userData.pet.health + healthGain);
+      
+      const levelIncrease = Math.floor(plant.output / 10);
+      const newLevel = userData.level + (levelIncrease > 0 ? levelIncrease : 1);
+      
+      const newMaxHP = 100 + (newLevel * 10);
+      
+      const finalHealth = Math.min(newMaxHP, updatedHealth);
+      
+      const updatedPlants = userData.plants.filter((_, index) => index !== plantIndex);
+
+      const fullUserData = await getUserByUid(firebaseUser.uid);
+      if (!fullUserData || !fullUserData.docId) {
+        throw new Error('User data not found');
+      }
+
+      await updateDocInFirebase(fullUserData.docId, "users", {
+        pet: {
+          health: finalHealth,
+          input: userData.pet.input
+        },
+        level: newLevel,
+        plants: updatedPlants
+      });
+
+      await refreshUserData();
+    } catch (error) {
+      console.error('Error feeding plant:', error);
+    } finally {
+      setProcessingPlantIndex(null);
+    }
+  };
+
   var lastTime: number = 0;
 
-  if (Math.floor((new Date() - lastTime)/60000) < 2 ) {
+  if (Math.floor((new Date().getTime() - lastTime)/60000) < 2 ) {
     handleFeedPet()
   }
 
   const petHealth = userData?.pet?.health || 100;
   const petInput = userData?.pet?.input || 10;
-   
-  let expFraction = userData.level/10
-  let healthFraction = userData.pet.health
-
-  let exp: String = `h-full bg-inverse-primary rounded-full w-${expFraction}`
-  let health: String = `h-full bg-red-500 rounded-full w-${healthFraction}`
+  const petLevel = userData?.level || 1;
+  
+  const calculateMaxHP = (level: number) => {
+    return 100 + (level * 10);
+  };
+  
+  const maxHP = calculateMaxHP(petLevel);
+  
+  const healthPercentage = Math.min(100, Math.max(0, (petHealth / maxHP) * 100));
+  
+  const xpProgress = (petLevel % 10) * 10;
+  const xpPercentage = Math.min(100, xpProgress);
 
   return (
     <div className='bg-background w-full h-screen'>
@@ -84,7 +135,7 @@ export default function Pet() {
         <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"></link>
       </Head>
 
-      <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center absolute h-screen px-[15px] py-[15px] z-900">
+      <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center absolute h-screen px-[15px] py-[15px] z-[900]">
         <section id="topIcons" className='flex flex-col gap-5' color="white">
           <Link href="/homepage"><House id="homeBtn" className='w-[39px] h-[39px] text-white'/> </Link> 
           <Link href="/pet"><PawPrint id="petBtn" className='w-[39px] h-[39px] text-inverse-primary'/></Link> 
@@ -100,52 +151,55 @@ export default function Pet() {
         <Image src={flamadillo} alt="Flamadillo" className='w-[45vmin] overflow-hidden image-rendering-pixelated' />
       </div>
 
-      <div className='absolute bottom-0 right-0 w-[40%] h-[30%] rounded-tl-xl z-800 bg-surface-container-highest p-5 flex flex-col gap-5'>
+      <div className='absolute bottom-0 right-0 w-[40%] h-[30%] rounded-tl-xl z-[800] bg-surface-container-highest p-5 flex flex-col gap-5'>
         <h1 className='headline-large'>Pet Stats</h1>
-        <h2 className='title-large'>Health</h2>
-        <div className="w-full h-[10%] bg-gray-200 rounded-full dark:bg-gray-700">
-          <div className={health}></div>
+        <h2 className='title-large'>Health: {Math.floor(petHealth)}/{maxHP}</h2>
+        <div id="healthBar" className="w-full h-[10%] bg-gray-200 rounded-full dark:bg-gray-700 overflow-hidden">
+          <div 
+            className="h-full bg-red-500 rounded-full transition-all duration-300"
+            style={{ width: `${healthPercentage}%` }}
+          ></div>
         </div>
 
-        <h2 className='title-large'>EXP</h2>
-        <div className="w-full h-[10%] bg-gray-200 rounded-full dark:bg-gray-700">
-          <div className={exp}></div>
+        <h2 className='title-large'>Level: {petLevel} | XP: {xpProgress}%</h2>
+        <div id="expBar" className="w-full h-[10%] bg-gray-200 rounded-full dark:bg-gray-700 overflow-hidden">
+          <div 
+            className="h-full bg-inverse-primary rounded-full transition-all duration-300"
+            style={{ width: `${xpPercentage}%` }}
+          ></div>
         </div>
       </div>
 
-      <div id="plantBar" className='absolute bottom-0 w-[60vw] h-[23%] z-799 bg-surface-container flex flex-row justify-start p-2 pl-20 overflow-x-auto gap-4 left-1 '>
-        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0 bg-surface-container-high">
-          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
-          <div className='flex flex-col content-start'>
-            <section>
-              <h3 className="headline-medium">Plant Name</h3>
-              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
-              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
-            </section>
+      <div id="plantBar" className='absolute bottom-0 w-[60vw] h-[23%] z-[799] bg-surface-container flex flex-row justify-start p-2 pl-20 overflow-x-auto gap-4 left-1 '>
+        {userData?.plants && userData.plants.length > 0 ? (
+          userData.plants.map((plant, index) => (
+            <div key={index} className="flex flex-row border rounded-lg p-4 w-96 shrink-0 bg-surface-container-high">
+              <img 
+                src={plant.pathToStorage} 
+                alt={plant.name} 
+                className="h-full w-[40%] object-cover rounded mb-2" 
+              />
+              <div className='flex flex-col content-start justify-between flex-1'>
+                <section>
+                  <h3 className="headline-medium">{plant.name}</h3>
+                  <p className="label-large text-gray-600">Rarity: {plant.rarity}</p>
+                  <p className="label-large text-gray-600">Output: {plant.output}</p>
+                </section>
+                <button
+                  onClick={() => handleFeedPlant(index)}
+                  disabled={processingPlantIndex !== null}
+                  className="mt-2 bg-tertiary-container text-on-tertiary-container px-4 py-2 rounded-lg hover:bg-opacity-80 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                >
+                  {processingPlantIndex === index ? 'Feeding...' : 'Feed Pet'}
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="flex items-center justify-center w-full h-full">
+            <p className="text-gray-500">No plants yet. Add plants in your inventory!</p>
           </div>
-        </div> 
-
-        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0 bg-surface-container-high">
-          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
-          <div className='flex flex-col content-start'>
-            <section>
-              <h3 className="headline-medium">Plant Name</h3>
-              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
-              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
-            </section>
-          </div>
-        </div>
-
-        <div className="flex flex-row border rounded-lg p-4 w-96 shrink-0 bg-surface-container-high">
-          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
-          <div className='flex flex-col content-start'>
-            <section>
-              <h3 className="headline-medium">Plant Name</h3>
-              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
-              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
-            </section>
-          </div>
-        </div> 
+        )}
       </div>
     </div>
   );

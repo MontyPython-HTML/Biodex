@@ -73,8 +73,9 @@ return (
 function Circle(){
 return (
 <div className=" items-center mt-10 transalate-y-50">
-<div className="w-100 h-100 bg-gray-500 rounded-full flex justify-center items-center">
-<p className="text-white text-lg">Circle Container</p>
+<div className="w-100 h-100 bg-surface-container-high rounded-full flex justify-center items-center bg-cover bg-[url('https://media.discordapp.net/attachments/1434451712176951447/1437130426039795903/flamadillo.gif?ex=69121f82&is=6910ce02&hm=74abe6565aaf029577160e1d1d15b63eb861304aeff0ba9a48bc05143891e03c&=&width=240&height=240')]">
+
+
 </div>
 </div>
 );

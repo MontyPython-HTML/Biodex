@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { addDoc, collection, doc, deleteDoc, updateDoc, getDocs, getDoc, getFirestore } from "firebase/firestore";
+import { addDoc, collection, doc, deleteDoc, getDocs, getDoc, getFirestore } from "firebase/firestore";
 import { User } from "@/src/Models/User";
 
 const firebaseConfig = {
@@ -26,11 +26,11 @@ export async function deleteFromFirebase (docId: string, table: string) {
     .catch(error => { console.error(error); });
 }
 
-export async function upsertToFirebase (objectId: string, table: string, newObject: User) {
-  const reference = doc(database, table, objectId);
-  await updateDoc(reference, newObject)
-    .catch(error => { console.error(error); });
-}
+// export async function upsertToFirebase (objectId: string, table: string, newObject: Type) {
+// const reference = doc(database, table, objectId);
+// await updateDoc(reference, newObject)
+// .catch(error => { console.error(error); });
+// }
 
 export async function getAllDocsFromFirebase (table: string) {
   const references = collection(database, table);

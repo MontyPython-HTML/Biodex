@@ -11,16 +11,3 @@ const firebaseConfig = {
   measurementId: process.env.MEASUREMENT_ID,
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
 };
-
-const app = initializeApp(firebaseConfig)
-const storage = getStorage(app)
-
-export async function addImageToStorage(img: String) {
-  const storageRef = ref(storage, img);
-
-  uploadBytes(storageRef, file)
-    .catch((error) => {
-      console.error(error);
-    })
-}
-

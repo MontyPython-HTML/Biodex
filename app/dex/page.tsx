@@ -40,7 +40,7 @@ function RightContainer() {
   useEffect(() => {
     if (containerRef.current) {
       const children = containerRef.current.children;
-      gsap.fromTo(children,{ y: 50, opacity: 0 },{ y: 0, opacity: 1, duration: 0.8, ease: "back.out(1.7)", stagger: 0.15 },{ rotation: 360, duration: 2, ease: "none" });
+      gsap.fromTo(children,{ y: 0, opacity: 1, duration: 0.8, ease: "back.out(1.7)", stagger: 0.15 },{ rotation: 360, duration: 2, ease: "none" });
     }
   }, []);
 
@@ -70,7 +70,7 @@ function Photo() {
 
   useEffect(() => {
     if (photoRef.current) {
-      gsap.fromTo(photoRef.current,{ scale: 0, opacity: 0 },{ scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)", delay: 0.3 },{ rotation: 360, duration: 2, ease: "none" });
+      gsap.fromTo(photoRef.current,{ scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)", delay: 0.3 },{ rotation: 360, duration: 2, ease: "none" });
     }
   }, []);
 

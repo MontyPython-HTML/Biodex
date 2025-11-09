@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Kreon, Poppins } from 'next/font/google'
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,9 +13,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Geauxhack 2025",
+  title: "Biodex",
   description: "winning"
 };
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-poppins',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
+});
+
+const kreon = Kreon({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-kreon',
+});
 
 export default function RootLayout ({
   children
@@ -23,8 +36,7 @@ export default function RootLayout ({
   children: React.ReactNode
 }>) {
   return (
-
-    <html lang="en">
+    <html lang="en" className={`${poppins.variable} ${kreon.variable}`}>
       <body>
         {children}
       </body>

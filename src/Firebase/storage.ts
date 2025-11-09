@@ -1,13 +1,14 @@
-import { getStorage, Storage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { FirebaseStorage } from "firebase/storage";
 import { getFirebaseApp } from "./config";
 
-let storageInstance: Storage | null = null;
+let storageInstance: FirebaseStorage | null = null;
 
 /**
  * Get Firebase Storage instance with build guard rails
  * Returns null during build/server-side to prevent crashes
  */
-function getStorageInstance(): Storage | null {
+function getStorageInstance(): FirebaseStorage | null {
   if (typeof window === 'undefined') {
     return null;
   }

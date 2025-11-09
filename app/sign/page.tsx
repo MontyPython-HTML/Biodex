@@ -32,7 +32,7 @@ export default function SignIn() {
 
     try {
       await createUser(email, password, username);
-      router.push('/homepage');
+      router.push('/');
     } catch (err: any) {
       setError(err.message || 'Failed to create account. Please try again.');
     } finally {

@@ -128,7 +128,7 @@ export default function Inventory() {
       </nav>
 
       <div className="flex-1 ml-[69px] p-8">
-        <h1 className="text-4xl font-bold mb-6">Inventory</h1>
+        <h1 className="text-4xl font-bold mb-6">Profile</h1>
         
         <div className="bg-white p-6 rounded-lg shadow-md mb-6">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Upload Plant Image</h2>

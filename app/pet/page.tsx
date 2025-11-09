@@ -1,40 +1,128 @@
-import Head from 'next/head'
+"use client";
+
 import { House, Box, PawPrint, User } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/src/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { updateDocInFirebase, getUserByUid } from '@/src/Firebase/database';
+import { changeHealth, updateHealth, updateInput } from '@/src/Utils/Math';
 
-function Pet() {
+export default function Pet() {
+  const { firebaseUser, userData, refreshUserData, loading } = useAuth();
+  const router = useRouter();
+  const [processing, setProcessing] = useState(false);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!firebaseUser) {
+    router.push('/login');
+    return null;
+  }
+
+  const handleFeedPet = async () => {
+    if (!userData || processing) return;
+
+    setProcessing(true);
+    try {
+      const totalOutput = userData.plants?.reduce((sum, plant) => sum + plant.output, 0) || 0;
+      const newHealth = changeHealth(userData.pet.input, totalOutput);
+      const updatedHealth = Math.min(100, userData.pet.health + newHealth);
+      
+      const fullUserData = await getUserByUid(firebaseUser.uid);
+      if (!fullUserData || !fullUserData.docId) {
+        throw new Error('User data not found');
+      }
+
+      await updateDocInFirebase(fullUserData.docId, "users", {
+        pet: {
+          health: updatedHealth,
+          input: userData.pet.input
+        }
+      });
+
+      await refreshUserData();
+    } catch (error) {
+      console.error('Error feeding pet:', error);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const petHealth = userData?.pet?.health || 100;
+  const petInput = userData?.pet?.input || 10;
+
   return (
-    <div className='bg-background w-full h-screen'>
-      <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
-        <link rel="preconnect" href="https://fonts.gstatic.com"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"></link>
-      </Head>
-      <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center absolute h-screen px-[15px] py-[15px]">
-        <section id="topIcons" className='flex flex-col gap-5' color="white">
-          <Link href="/"><House id="homeBtn" className='w-[39px] h-[39px]' color='white'/> </Link> 
-          <Link href="/pet"><PawPrint id="petBtn" className='w-[39px] h-[39px] text-inverse-primary'/></Link> 
-          <Link href="/Inventory"><Box id="inventoryBtn" className='w-[39px] h-[39px]' color="white"/></Link> 
+    <div className='bg-background w-full min-h-screen'>
+      <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center fixed h-screen px-[15px] py-[15px] z-900">
+        <section className='flex flex-col gap-5'>
+          <Link href="/homepage"><House className='w-[39px] h-[39px] text-inverse-primary' /></Link>
+          <Link href="/pet"><PawPrint className='w-[39px] h-[39px] text-inverse-primary' /></Link>
+          <Link href="/inventory"><Box className='w-[39px] h-[39px] text-white' /></Link>
         </section>
-        <section id="profile">
-          <User id="profileBtn" className='w-[39px] h-[39px]' color="white"/>
+        <section>
+          <User className='w-[39px] h-[39px] text-white' />
         </section>
       </nav>
-      
-      <div className='flex flex-col'>
-        <div id="homePage" className='bg-[url(./media/leavesBkg.png)] bg-cover h-screen bg-right p-35 flex flex-col justify-center'>
-            <h1 id="mainTitle" className='font-(family-name:--font-kreon) text-[96px] float-left leading-25'>BioDex</h1>
-            <p id="aboutText" className='body-large w-[600px] gap-0'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec molestie purus, sed porttitor urna. Nullam id odio at sem ultricies finibus. Donec lectus erat, pretium ac orci nec, sollicitudin vulputate velit. Etiam efficitur leo et sem cursus feugiat at ac mi. Nulla euismod viverra laoreet. Nulla tempus turpis quam, ut eleifend metus fermentum porttitor. Aenean tempor ligula lacinia risus tempus, eu scelerisque nibh molestie. Maecenas fermentum, tellus vitae consectetur pellentesque, enim urna accumsan massa, et rutrum quam mi non leo. Donec eu congue ipsum, eget iaculis ipsum. Nullam dignissim magna ultrices felis bibendum ultrices. Aliquam erat volutpat. In a magna sed erat mollis suscipit. Morbi eu bibendum justo.</p>
+
+      <div className='flex-1 ml-[69px] p-8'>
+        <h1 className="text-4xl font-bold mb-6">Your Pet</h1>
+        
+        <div className="grid grid-cols-2 gap-6 mb-6">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold mb-4">Pet Status</h2>
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between mb-2">
+                  <span className="font-medium">Health</span>
+                  <span>{petHealth}/100</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-4">
+                  <div 
+                    className="bg-green-600 h-4 rounded-full transition-all"
+                    style={{ width: `${petHealth}%` }}
+                  ></div>
+                </div>
+              </div>
+              <div>
+                <p className="font-medium mb-2">Input: {petInput}</p>
+                <p className="text-sm text-gray-600">
+                  Total Plant Output: {userData?.plants?.reduce((sum, plant) => sum + plant.output, 0) || 0}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold mb-4">Actions</h2>
+            <button
+              onClick={handleFeedPet}
+              disabled={processing || !userData?.plants || userData.plants.length === 0}
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {processing ? 'Feeding...' : 'Feed Pet with Plants'}
+            </button>
+            {(!userData?.plants || userData.plants.length === 0) && (
+              <p className="text-sm text-gray-500 mt-2">Add plants to your inventory to feed your pet!</p>
+            )}
+          </div>
         </div>
 
-        <div id="j" className='bg-[url(./media/leavesBkg.png)] bg-cover h-screen bg-right p-35 flex flex-col justify-center'>
-            <h1 id="y" className='font-(family-name:--font-kreon) text-[96px] float-left leading-25'>BioDex</h1>
-            <p id="s" className='body-large w-[600px] gap-0'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec molestie purus, sed porttitor urna. Nullam id odio at sem ultricies finibus. Donec lectus erat, pretium ac orci nec, sollicitudin vulputate velit. Etiam efficitur leo et sem cursus feugiat at ac mi. Nulla euismod viverra laoreet. Nulla tempus turpis quam, ut eleifend metus fermentum porttitor. Aenean tempor ligula lacinia risus tempus, eu scelerisque nibh molestie. Maecenas fermentum, tellus vitae consectetur pellentesque, enim urna accumsan massa, et rutrum quam mi non leo. Donec eu congue ipsum, eget iaculis ipsum. Nullam dignissim magna ultrices felis bibendum ultrices. Aliquam erat volutpat. In a magna sed erat mollis suscipit. Morbi eu bibendum justo.</p>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold mb-4">Pet Info</h2>
+          <p className="text-gray-700">
+            Your pet's health is maintained by feeding it with the plants you collect. 
+            Each plant has an output value that contributes to your pet's health when fed.
+            Keep collecting plants to keep your pet healthy!
+          </p>
         </div>
       </div>
-
     </div>
   );
 }
-
-export default Pet

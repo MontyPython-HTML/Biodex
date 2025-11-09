@@ -1,16 +1,16 @@
 import { initializeApp } from "firebase/app";
-import { addDoc, collection, doc, deleteDoc, getDocs, getDoc, getFirestore } from "firebase/firestore";
+import { addDoc, collection, doc, deleteDoc, getDocs, getDoc, getFirestore, updateDoc, query, where } from "firebase/firestore";
 import { User } from "@/src/Models/User";
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_KEY,
-  projectId: process.env.PROJECT_ID,
-  authDomain: process.env.AUTH_DOMAIN,
-  databaseURL: process.env.DATABASE_URL,
-  storageBucket: process.env.STORAGE_BUCKET,
-  appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_KEY,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID
 };
 
 const app = initializeApp(firebaseConfig);
@@ -26,11 +26,11 @@ export async function deleteFromFirebase (docId: string, table: string) {
     .catch(error => { console.error(error); });
 }
 
-// export async function upsertToFirebase (objectId: string, table: string, newObject: Type) {
-// const reference = doc(database, table, objectId);
-// await updateDoc(reference, newObject)
-// .catch(error => { console.error(error); });
-// }
+export async function updateDocInFirebase (docId: string, table: string, updates: Partial<User>) {
+  const reference = doc(database, table, docId);
+  await updateDoc(reference, updates as any)
+    .catch(error => { console.error(error); });
+}
 
 export async function getAllDocsFromFirebase (table: string) {
   const references = collection(database, table);
@@ -46,4 +46,16 @@ export async function getDocFromFirebase (docId: string, table: string) {
       data: docSnap.data()
     });
   }
+  return null;
+}
+
+export async function getUserByUid (uid: string): Promise<(User & { docId: string }) | null> {
+  const q = query(collection(database, "users"), where("id", "==", uid));
+  const querySnapshot = await getDocs(q);
+  
+  if (!querySnapshot.empty) {
+    const docSnapshot = querySnapshot.docs[0];
+    return { ...docSnapshot.data(), docId: docSnapshot.id } as User & { docId: string };
+  }
+  return null;
 }

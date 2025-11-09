@@ -1,7 +1,4 @@
 import axios from "axios";
-import * as fs from "fs";
-import FormData from "form-data";
-import { inspect } from "util";
 
 interface PlantSpecies {
   scientificName: string;
@@ -16,38 +13,31 @@ interface PlantNetResponse {
   bestMatch: string;
 }
 
-const API_KEY = process.env.PLANT_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_PLANT_KEY;
 const PROJECT = "all";
 const api_url = `https://my-api.plantnet.org/v2/identify/${PROJECT}?api-key=${API_KEY}`;
 
-export async function identifyPlant (image_path: string): Promise<void> {
+export interface PlantIdentificationResult {
+  scientificName: string;
+  commonName: string;
+  score: number;
+}
+
+export async function identifyPlant (imageFile: File): Promise<PlantIdentificationResult | null> {
   if (!API_KEY) {
-    console.error("Error: PLANT_KEY environment variable is not set.");
-    return;
+    console.error("Error: NEXT_PUBLIC_PLANT_KEY environment variable is not set.");
+    return null;
   }
 
   const formData = new FormData();
-  const data = { organs: ["auto"] };
-
-  for (const [key, value] of Object.entries(data)) {
-    if (Array.isArray(value)) {
-      value.forEach(item => formData.append(key, item));
-    } else {
-      formData.append(key, value);
-    }
-  }
-
-  try {
-    const image_data = fs.createReadStream(image_path);
-    formData.append("images", image_data, image_path);
-  } catch (error) {
-    console.error(`Error reading file ${image_path}:`, error);
-    return;
-  }
+  formData.append("images", imageFile);
+  formData.append("organs", "auto");
 
   try {
     const response = await axios.post(api_url, formData, {
-      headers: formData.getHeaders()
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }
     });
 
     const data: PlantNetResponse = response.data;
@@ -58,15 +48,20 @@ export async function identifyPlant (image_path: string): Promise<void> {
     const bestMatch = data.bestMatch;
     const commonNames = bestResult?.species.commonNames ?? [];
     const commonName = commonNames[0] ?? "Unknown";
+    const score = bestResult?.score ?? 0;
 
-    console.log(`Best match (Scientific): ${bestMatch}`);
-    console.log(`Common name: ${commonName}`);
+    return {
+      scientificName: bestMatch,
+      commonName: commonName,
+      score: score
+    };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       console.error(`API Error Status: ${error.response.status}`);
-      console.error(inspect(error.response.data, { depth: null, colors: true }));
+      console.error("API Error Data:", error.response.data);
     } else {
       console.error("An unknown error occurred during API call:", error);
     }
+    return null;
   }
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Kreon, Poppins, Geist_Mono, Geist } from 'next/font/google'
 import "./globals.css";
+import { AuthProvider } from "@/src/contexts/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +38,9 @@ export default function RootLayout ({
   return (
     <html lang="en" className={`${poppins.variable} ${kreon.variable}`}>
       <body className='bg-background'>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

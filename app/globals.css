@@ -171,6 +171,6 @@
   background-size: cover;
 }
 
-body::-webkit-scrollbar, #plantBar::-webkit-scrollbar{
+body::-webkit-scrollbar {
   display: none; /* Hides the scrollbar */
 }

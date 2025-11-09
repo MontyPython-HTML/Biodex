@@ -1,3 +1,5 @@
+'use client'; // Correct
+
 import { initializeApp, getApps, FirebaseApp } from "firebase/app";
 
 interface FirebaseConfig {
@@ -10,7 +12,6 @@ interface FirebaseConfig {
   measurementId?: string;
   messagingSenderId: string;
 }
-
 /**
  * CRITICAL BUILD GUARD RAIL: Safely get Firebase configuration
  * Prevents build crashes when environment variables are missing

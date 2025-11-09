@@ -51,7 +51,7 @@ return (
 </nav>
 
 
-  );
+);
 }
 function Circle(){
 return (

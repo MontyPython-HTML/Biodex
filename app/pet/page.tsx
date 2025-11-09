@@ -17,7 +17,7 @@ function Pet() {
           <Link href="/Inventory"><Box id="inventoryBtn" className='w-[39px] h-[39px]' color="white"/></Link> 
         </section>
         <section id="profile">
-          <User id="profileBtn" className='w-[39px] h-[39px]' color="white"/>
+          <Link href="/profile"><User href="/profile"id="profileBtn" className='w-[39px] h-[39px]' color="white"/></Link>
         </section>
       </nav>
       

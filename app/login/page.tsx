@@ -1,4 +1,4 @@
-
+import Link from 'next/link';
 
 export default function LoginPage() {
   return (
@@ -32,21 +32,10 @@ export default function LoginPage() {
               placeholder="••••••••"
             />
           </div>
-
-          
-          
-
-          
-          <button
-            type="submit"
-            className="w-full py-2 bg-secondary-container hover:bg-green-800 transition text-white rounded-xl font-semibold"
-          >
-            Log In
-          </button>
-
+          <button type="submit" className="w-full py-2 bg-secondary-container hover:bg-green-800 transition text-white rounded-xl font-semibold">Log In </button>
           <p className="text-center text-sm text-gray-600">
             Don't Have An Account?{" "}
-            <a href="http://localhost:3000/Sign" className="text-secondary-container font-medium hover:underline">
+            <a href="/sign" className="text-secondary-container font-medium hover:underline">
               Sign Up!
             </a>
           </p>

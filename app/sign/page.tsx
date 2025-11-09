@@ -1,6 +1,6 @@
+import Link from 'next/link';
 
-
-export default function LoginPage() {
+export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
@@ -42,12 +42,7 @@ export default function LoginPage() {
               placeholder="••••••••"
             />
           </div>
-
-          
-          <div>
-            <label className="block text-gray-700 mb-1 font-medium">
-              Confirm Password
-            </label>
+          <div><label className="block text-gray-700 mb-1 font-medium">Confirm Password</label>
             <input
               type="confirm password"
               required
@@ -55,18 +50,10 @@ export default function LoginPage() {
               placeholder="••••••••"
             />
           </div>
-
-          
-          <button
-            type="submit"
-            className="w-full py-2 bg-secondary-container hover:bg-green-800 transition text-white rounded-xl font-semibold"
-          >
-            Sign Up
-          </button>
-
+          <button type="submit" className="w-full py-2 bg-secondary-container hover:bg-green-800 transition text-white rounded-xl font-semibold">Sign Up</button>
           <p className="text-center text-sm text-gray-600">
             Already Have An Account?{" "}
-            <a href="http://localhost:3000/login" className="text-secondary-container font-medium hover:underline">
+            <a href="/login" className="text-secondary-container font-medium hover:underline">
               Login!
             </a>
           </p>

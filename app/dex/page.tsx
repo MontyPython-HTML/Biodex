@@ -15,7 +15,6 @@ export default function BioDex() {
   );
 }
 
-
 function Navbar() {
   return (
     <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center px-[15px] py-[15px]">
@@ -33,7 +32,7 @@ function Navbar() {
 }
 
 function RightContainer() {
-    const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const gridItems = Array.from({ length: 6 });
 

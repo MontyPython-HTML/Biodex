@@ -97,7 +97,7 @@ export default function Pet() {
 
         <h2 className='title-large'>EXP</h2>
         <div className="w-full h-[10%] bg-gray-200 rounded-full dark:bg-gray-700">
-          <div className="h-full bg-inverse-primary rounded-full w-[90%]"></div>
+          <div className='h-full bg-inverse-primary rounded-full w-[90%]'></div>
         </div>
       </div>
 

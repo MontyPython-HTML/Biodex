@@ -22,25 +22,66 @@ const levelRef = useRef(null);
 const circleRef = useRef(null);
 return (
 <div>
-<Navbar />
+  <Navbar />
 
-<div className="flex justify-end w-full pr-10">
-<div className="flex gap-6">
+  <div className="flex justify-end w-full pr-10">
+    <div className="flex gap-6">
 
-<div ref={healthRef} className="w-220 h-40 bg-white shadow-xl rounded-2xl p-8 justify-let translate-y-5">
-<h2 className="text-3xl font-bold text-center mb-6 text-gray-800 font-headline-large"> Welcome Back!, </h2>
-<h3> HP: <HealthBar value={85} /></h3>
-</div>
+      <div className="flex flex-col w-280 translate-x-30">
+        <div ref={healthRef} className="w-[80%] h-40 bg-white shadow-xl rounded-2xl p-8 justify-let translate-y-5">
+          <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 font-headline-large"> Welcome Back!, </h2>
+          <h3> HP: <HealthBar value={85} /></h3>
+        </div>
+        <div id="plantContainer" className="flex flex-row flex-wrap w-[80%] h-full mt-10 py-5 px-8 bg-surface-container-highest rounded-lg overflow-y-auto gap-10">
+          
+          <div className="flex flex-row border rounded-lg p-4 w-96 h-40 shrink-0 bg-surface-container-high">
+          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
+          <div className='flex flex-col content-start'>
+            <section>
+              <h3 className="headline-medium">Plant Name</h3>
+              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
+              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+            </section>
+            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
+          </div>
+        </div>
 
-<div  ref={levelRef}className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
-<Circle ref={circleRef} />
-<h3 className="text-3xl font-bold text-center mb-6 text-gray-800 font-headline-large"> Level Progress:<LevelBar level={8} currentXP={8} maxXP={20} /> </h3>
-</div>
+        <div className="flex flex-row border rounded-lg p-4 w-96 h-40 shrink-0 bg-surface-container-high">
+          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
+          <div className='flex flex-col content-start'>
+            <section>
+              <h3 className="headline-medium">Plant Name</h3>
+              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
+              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+            </section>
+            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
+          </div>
+        </div>
 
-</div>
-</div>
+        <div className="flex flex-row border rounded-lg p-4 w-96 h-40 shrink-0 bg-surface-container-high">
+          <img src='yup' alt='plant' className="h-full w-[40%] object-cover rounded mb-2" />
+          <div className='flex flex-col content-start'>
+            <section>
+              <h3 className="headline-medium">Plant Name</h3>
+              <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
+              <p className="label-large text-gray-600">Output: 1 billion!!!</p>
+            </section>
+            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
+          </div>
+        </div>
 
-<form />
+        </div>
+      </div>
+
+      <div ref={levelRef}className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
+        <Circle ref={circleRef} />
+        <h3 className="text-3xl font-bold text-center mb-6 text-gray-800 font-headline-large"> Level Progress:<LevelBar level={8} currentXP={8} maxXP={20} /> </h3>
+      </div>
+
+    </div>
+  </div>
+
+  <form />
 </div>
 );
 }
@@ -88,7 +129,7 @@ function LevelBar({ level, currentXP, maxXP }) {
 const percentage = (currentXP / maxXP) * 100;
 
 return (
-<div className="w-72 justify-center">
+<div className="w-72 flex flex-col items-center">
 <p className="text-gray font-semibold mb-1">Level {level}</p>
 
 <div className="w-full h-5 bg-gray-700 rounded-full overflow-hidden border-2 border-black shadow-md">

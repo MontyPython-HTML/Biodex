@@ -34,7 +34,7 @@ export default function Home () {
       </Head>
       <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center fixed h-screen px-[15px] py-[15px] z-900">
         <section id="topIcons" className='flex flex-col gap-5'>
-          <Link href="/"><House id="homeBtn" className='w-[39px] h-[39px] text-inverse-primary'/> </Link>
+          <Link href="/homepage"><House id="homeBtn" className='w-[39px] h-[39px] text-inverse-primary'/> </Link>
           <Link href="/pet"><PawPrint id="petBtn" className='w-[39px] h-[39px]' color='white'/></Link>
           <Link href="/inventory"><Box id="inventoryBtn" className='w-[39px] h-[39px]' color="white"/></Link>
         </section>

@@ -17,7 +17,6 @@ interface FirebaseConfig {
  * Prevents build crashes when environment variables are missing
  */
 function getFirebaseConfig(): FirebaseConfig | null {
-  console.log(process.env.NEXT_PUBLIC_FIREBASE_KEY);
   const apiKey = process.env.NEXT_PUBLIC_FIREBASE_KEY;
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 

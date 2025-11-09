@@ -61,8 +61,20 @@ export default function Pet() {
     }
   };
 
+  var lastTime: number = 0;
+
+  if (Math.floor((new Date() - lastTime)/60000) < 2 ) {
+    handleFeedPet()
+  }
+
   const petHealth = userData?.pet?.health || 100;
   const petInput = userData?.pet?.input || 10;
+   
+  let expFraction = userData.level/10
+  let healthFraction = userData.pet.health
+
+  let exp: String = `h-full bg-inverse-primary rounded-full w-${expFraction}`
+  let health: String = `h-full bg-red-500 rounded-full w-${healthFraction}`
 
   return (
     <div className='bg-background w-full h-screen'>
@@ -74,12 +86,12 @@ export default function Pet() {
 
       <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center absolute h-screen px-[15px] py-[15px] z-900">
         <section id="topIcons" className='flex flex-col gap-5' color="white">
-          <Link href="/"><House id="homeBtn" className='w-[39px] h-[39px] text-white'/> </Link> 
+          <Link href="/homepage"><House id="homeBtn" className='w-[39px] h-[39px] text-white'/> </Link> 
           <Link href="/pet"><PawPrint id="petBtn" className='w-[39px] h-[39px] text-inverse-primary'/></Link> 
           <Link href="/inventory"><Box id="inventoryBtn" className='w-[39px] h-[39px] text-white'/></Link> 
         </section>
         <section id="profile">
-          <Link href="/profile"></Link><User id="profileBtn" className='w-[39px] h-[39px]' color="white"/>
+          <Link href="/profile"><User id="profileBtn" className='w-[39px] h-[39px]' color="white"/></Link>
         </section>
       </nav>
 
@@ -92,12 +104,12 @@ export default function Pet() {
         <h1 className='headline-large'>Pet Stats</h1>
         <h2 className='title-large'>Health</h2>
         <div className="w-full h-[10%] bg-gray-200 rounded-full dark:bg-gray-700">
-          <div className="h-full bg-red-500 rounded-full w-[90%]"></div>
+          <div className={health}></div>
         </div>
 
         <h2 className='title-large'>EXP</h2>
         <div className="w-full h-[10%] bg-gray-200 rounded-full dark:bg-gray-700">
-          <div className='h-full bg-inverse-primary rounded-full w-[90%]'></div>
+          <div className={exp}></div>
         </div>
       </div>
 
@@ -110,7 +122,6 @@ export default function Pet() {
               <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
               <p className="label-large text-gray-600">Output: 1 billion!!!</p>
             </section>
-            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
           </div>
         </div> 
 
@@ -122,7 +133,6 @@ export default function Pet() {
               <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
               <p className="label-large text-gray-600">Output: 1 billion!!!</p>
             </section>
-            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
           </div>
         </div>
 
@@ -134,7 +144,6 @@ export default function Pet() {
               <p className="label-large text-gray-600">Rarity: MYTHICAL!!!!</p>
               <p className="label-large text-gray-600">Output: 1 billion!!!</p>
             </section>
-            <button className='mt-auto cursor-pointer w-48 h-8 bg-tertiary-container rounded-md text-on-tertiary-container'>Feed</button>
           </div>
         </div> 
       </div>

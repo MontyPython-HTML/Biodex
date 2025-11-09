@@ -29,7 +29,7 @@ export default function Home () {
             <p id="aboutText" className='body-large w-[40%] gap-0'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec molestie purus, sed porttitor urna. Nullam id odio at sem ultricies finibus. Donec lectus erat, pretium ac orci nec, sollicitudin vulputate velit. Etiam efficitur leo et sem cursus feugiat at ac mi. Nulla euismod viverra laoreet. Nulla tempus turpis quam, ut eleifend metus fermentum porttitor. Aenean tempor ligula lacinia risus tempus, eu scelerisque nibh molestie. Maecenas fermentum, tellus vitae consectetur pellentesque, enim urna accumsan massa, et rutrum quam mi non leo. Donec eu congue ipsum, eget iaculis ipsum. Nullam dignissim magna ultrices felis bibendum ultrices. Aliquam erat volutpat. In a magna sed erat mollis suscipit. Morbi eu bibendum justo.</p>
         </div>
 
-        <div id="signUpPage" className='bg-radial-[at_60%_30%] from-[#424A32] to-inverse-surface bg-cover h-[160vh] w-full bg-right p-35 flex flex-col items-center gap-40 z-500 **overflow-x-hidden**'>
+        <div id="signUpPage" className='bg-radial-[at_60%_30%] from-[#424A32] to-inverse-surface bg-cover h-[150vh] w-full bg-right p-35 flex flex-col items-center gap-40 z-500 overflow-x-hidden overflow-y-hidden'>
           <div id="getStartedPage"className='flex flex-row content-center items-center'>
             <h1 id="getStartedTitle" className='font-(family-name:--font-kreon) text-[10vmin] text-inverse-on-surface w-150'>Get Started Now!</h1> 
             <div id='signUpSurface' className='w-[35vw] h-[342px] bg-surface-container-high rounded-xl flex flex-col items-center justify-center gap-5'>

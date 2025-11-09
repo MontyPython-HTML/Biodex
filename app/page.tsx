@@ -30,9 +30,9 @@ export default function Home () {
           <div id="getStartedPage"className='flex flex-row content-center items-center'>
             <h1 id="getStartedTitle" className='font-(family-name:--font-kreon) text-[10vmin] text-inverse-on-surface w-150'>Get Started Now!</h1> 
             <div id='signUpSurface' className='w-[35vw] h-[342px] bg-surface-container-high rounded-xl flex flex-col items-center justify-center gap-5'>
-              <Link href="/sign" className='bg-tertiary-container text-on-tertiary-container w-110 h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] flex items-center justify-center'>Sign Up</Link>
+              <Link href="/sign"><button className='bg-tertiary-container text-on-tertiary-container w-[30vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] cursor-pointer'>Sign Up</button></Link>
               <h2 className='display-medium'>or</h2>
-              <Link href="/login" className='bg-tertiary-container text-on-tertiary-container w-110 h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] flex items-center justify-center'>Log In</Link>
+              <Link href="/login"><button className='bg-tertiary-container text-on-tertiary-container w-[30vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] cursor-pointer'>Log In</button></Link>
             </div>
           </div>
           <div id="exampleImagesPage" className="w-full">

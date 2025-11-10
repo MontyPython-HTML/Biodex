@@ -1,11 +1,7 @@
-'use client';
-import Image from 'next/image';
 import Head from 'next/head';
 import Link from 'next/link';
 import { House, Box, PawPrint, User } from 'lucide-react';
-import { identifyPlant } from "@/src/plant";    
-import * as auth from "@/src/Firebase/auth";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 gsap.registerPlugin(ScrollTrigger);
 

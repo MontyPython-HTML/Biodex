@@ -135,9 +135,9 @@ export default function Inventory() {
     <div className="min-h-screen bg-background flex">
       <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center fixed h-screen px-[15px] py-[15px] z-[900]">
         <section className="flex flex-col gap-5">
-          <Link href="/homepage"><House className="w-[39px] h-[39px] text-inverse-primary" /></Link>
+          <Link href="/homepage"><House className="w-[39px] h-[39px] text-white" /></Link>
           <Link href="/pet"><PawPrint className="w-[39px] h-[39px] text-white" /></Link>
-          <Link href="/inventory"><Box className="w-[39px] h-[39px] text-white " /></Link>
+          <Link href="/inventory"><Box className="w-[39px] h-[39px] text-inverse-primary" /></Link>
         </section>
         <section>
           <User className="w-[39px] h-[39px] text-white" />

@@ -132,9 +132,9 @@ export default function Pet() {
   // Levels 10-19: flamarillo
   // Levels 20+: shellblaze
   const getPetEvolution = (level: number) => {
-    if (level >= 20) {
+    if (level >= 50) {
       return { image: shellblaze, name: "Shellblaze" };
-    } else if (level >= 10) {
+    } else if (level >= 20) {
       return { image: flamarillo, name: "Flamarillo" };
     } else {
       return { image: flamadillo, name: "Flamadillo" };

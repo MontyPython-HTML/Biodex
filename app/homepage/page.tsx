@@ -15,7 +15,7 @@ export default function Home () {
   const getStartedRef = useRef(null);
   useEffect(() => {
     gsap.from("#mainTitle",{ x: -200, opacity: 0, duration: 1.5, ease: "power2.out" });
-    gsap.from("#aboutText",{ x: 200, opacity: 0, duration: 1.5, ease: "power2.out", delay: 0.5, ease: "power3.out" });
+    gsap.from("#aboutText",{ x: 200, opacity: 0, duration: 1.5, delay: 0.5, ease: "power3.out" });
     gsap.from("#getStartedTitle",{ y: 100, opacity: 0, duration: 1.5, ease: "power2.out", scrollTrigger: { trigger: "#getStartedTitle", start: "top 80%", end: "bottom 60%", scrub: true } });
     gsap.from("#signUpSurface",{ y: 100, opacity: 0, duration: 1.5, ease: "power2.out", delay: 0.5, scrollTrigger: { trigger: "#signUpSurface", start: "top 80%", end: "bottom 60%", scrub: true } });
     gsap.from("#homePage",{ opacity: 0, duration: 2, ease: "power2.out" });

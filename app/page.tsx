@@ -1,30 +1,16 @@
-'use client';
-import Image from 'next/image';
+"use client";
+
 import Head from 'next/head';
 import Link from 'next/link';
 import { House, Box, PawPrint, User } from 'lucide-react';
-import { identifyPlant } from "@/src/plant";    
-import * as auth from "@/src/Firebase/auth";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
-
-
 export default function Home () {
-  const aboutRef=useRef(null);
-  const signUpRef=useRef(null);
-  const getStartedRef=useRef(null);
-  useEffect(() => {
-    gsap.from("#mainTitle",{ x: -200, opacity: 0, duration: 1.5, ease: "power2.out" });
-    gsap.from("#aboutText",{ x: 200, opacity: 0,   duration: 1.5, ease: "power2.out", delay: 0.5, ease: "power3.out" });
-    gsap.from("#getStartedTitle",{ y: 100, opacity: 0, duration: 1.5, ease: "power2.out", scrollTrigger: { trigger: "#getStartedTitle", start: "top 80%", end: "bottom 60%", scrub: true } });
-    gsap.from("#signUpSurface",{ y: 100, opacity: 0, duration: 1.5, ease: "power2.out", delay: 0.5, scrollTrigger: { trigger: "#signUpSurface", start: "top 80%", end: "bottom 60%", scrub: true } });
-    gsap.from("#homePage",{ opacity: 0, duration: 2, ease: "power2.out" });
-
-
-  }, []);
+  const aboutRef = useRef(null);
+  const signUpRef = useRef(null);
+  const getStartedRef = useRef(null);
   return (
     <div className='bg-background w-full h-screen'>
       <Head>
@@ -34,7 +20,7 @@ export default function Home () {
       </Head>
       <nav className="flex flex-col bg-secondary-container w-[69px] justify-between items-center fixed h-screen px-[15px] py-[15px] z-900">
         <section id="topIcons" className='flex flex-col gap-5'>
-          <Link href="/"><House id="homeBtn" className='w-[39px] h-[39px] text-inverse-primary'/> </Link>
+          <Link href="/homepage"><House id="homeBtn" className='w-[39px] h-[39px] text-inverse-primary'/> </Link>
           <Link href="/pet"><PawPrint id="petBtn" className='w-[39px] h-[39px]' color='white'/></Link>
           <Link href="/inventory"><Box id="inventoryBtn" className='w-[39px] h-[39px]' color="white"/></Link>
         </section>
@@ -45,23 +31,22 @@ export default function Home () {
       <div id='homePage'  className='flex flex-col '>
         <div id="aboutPage" ref={aboutRef} className='bg-background bg-[url(./media/leavesBkg.png)] bg-cover h-screen bg-right p-35 flex flex-col justify-center snap-x snap-mandatory overflow-x-hidden overflow-y-hidden'>
             <h1 id="mainTitle" className='font-(family-name:--font-kreon) text-[10vmin] float-left leading-25'>BioDex</h1>
-            <p id="aboutText" className='body-large w-[40%] gap-0'>When trying to convince people to get some natural sunlight and go outside, the one question they ask is "Why should I?" This comes from a desire for incentive. People love instant gratification, and sadly, better physical and mental health doesn't count for that. That's why we made Biodex! Biodex motivates you to go outside by providing you with a cute little herbivore companion you need to take care of. The companion can only be fed plants that the user takes pictures of, so the user has to go outside to provide for their pet.</p>
+            <p id="aboutText" className='body-large w-[40%] gap-0'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec molestie purus, sed porttitor urna. Nullam id odio at sem ultricies finibus. Donec lectus erat, pretium ac orci nec, sollicitudin vulputate velit. Etiam efficitur leo et sem cursus feugiat at ac mi. Nulla euismod viverra laoreet. Nulla tempus turpis quam, ut eleifend metus fermentum porttitor. Aenean tempor ligula lacinia risus tempus, eu scelerisque nibh molestie. Maecenas fermentum, tellus vitae consectetur pellentesque, enim urna accumsan massa, et rutrum quam mi non leo. Donec eu congue ipsum, eget iaculis ipsum. Nullam dignissim magna ultrices felis bibendum ultrices. Aliquam erat volutpat. In a magna sed erat mollis suscipit. Morbi eu bibendum justo.</p>
         </div>
 
 
-        <div id="signUpPage" ref={signUpRef} className='bg-radial-[at_60%_30%] from-[#424A32] to-inverse-surface bg-cover h-screen w-full bg-right p-35 flex flex-col gap-70 z-500 overflow-x-hidden overflow-y-hidden content-center items-center justify-center pl-[100px] snap-always'>
-          <div id="getStartedPage" ref={getStartedRef}className='flex flex-row content-center items-center'>
-            <h1 id="getStartedTitle" className='font-(family-name:--font-kreon) text-[10vmin] text-inverse-on-surface w-150'>Get Started Today!</h1>
-            <div id='signUpSurface' className='w-[35vw] h-[342px] bg-surface-container-high rounded-xl flex flex-col items-center justify-center gap-5'>
-              <Link href="/sign"><button className='bg-tertiary-container text-on-tertiary-container w-[30vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] cursor-pointer'>Sign Up</button></Link>
-              <h2 className='display-medium'>or</h2>
-              <Link href="/login"><button className='bg-tertiary-container text-on-tertiary-container w-[30vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] cursor-pointer'>Log In</button></Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+<div id="signUpPage" ref={signUpRef} className="h-screen w-full bg-radial-[at_60%_30%] from-[#424A32] to-inverse-surface bg-cover flex flex-col items-center justify-center  px-[100px] overflow-hidden snap-always"> <div id="getStartedPage" ref={getStartedRef} className="flex flex-row items-center gap-20"> <h1 id="getStartedTitle" className="font-(family-name:--font-kreon) text-[10vmin] text-inverse-on-surface font-bold drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)]">Get Started Today! </h1>
+<div id="signUpSurface" className="w-[35vw] h-[342px] bg-surface-container-high rounded-2xl shadow-xl flex flex-col items-center justify-center gap-6 backdrop-blur-md border border-white/10">
+<Link href="/sign">
+<button className="bg-tertiary-container text-on-tertiary-container  w-[28vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] hover:scale-105 transition-all duration-200 shadow-md">
+Sign Up</button></Link>
+<h2 className="display-medium text-on-surface-variant">or</h2>
+<Link href="/login"><button className="bg-tertiary-container text-on-tertiary-container w-[28vw] h-20 rounded-xl font-(family-name:--font-poppins) text-[3vmin] hover:scale-105 transition-all duration-200 shadow-md">Log In</button></Link>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+);
 }
-
-console.log(process.env.NEXT_PUBLIC_FIREBASE_KEY);

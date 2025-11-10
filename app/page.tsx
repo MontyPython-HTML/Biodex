@@ -3,9 +3,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { House, Box, PawPrint, User } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import gsap from 'gsap';
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Home () {
   const aboutRef = useRef(null);

@@ -127,6 +127,22 @@ export default function Pet() {
   const xpProgress = (petLevel % 10) * 10;
   const xpPercentage = Math.min(100, xpProgress);
 
+  // Determine pet evolution based on level
+  // Levels 1-9: flamadillo
+  // Levels 10-19: flamarillo
+  // Levels 20+: shellblaze
+  const getPetEvolution = (level: number) => {
+    if (level >= 20) {
+      return { image: shellblaze, name: "Shellblaze" };
+    } else if (level >= 10) {
+      return { image: flamarillo, name: "Flamarillo" };
+    } else {
+      return { image: flamadillo, name: "Flamadillo" };
+    }
+  };
+
+  const currentPet = getPetEvolution(petLevel);
+
   return (
     <div className='bg-background w-full h-screen'>
       <Head>
@@ -148,7 +164,7 @@ export default function Pet() {
 
       <Image src={petBkg} alt="Pixel art forest background" className='w-full absolute z-0 image-rendering-pixelated h-screen overflow-hidden'/>
       <div className="absolute inset-0 flex items-center justify-center">
-        <Image src={flamadillo} alt="Flamadillo" className='w-[45vmin] overflow-hidden image-rendering-pixelated' />
+        <Image src={currentPet.image} alt={currentPet.name} className='w-[45vmin] overflow-hidden image-rendering-pixelated' />
       </div>
 
       <div className='absolute bottom-0 right-0 w-[40%] h-[30%] rounded-tl-xl z-[800] bg-surface-container-highest p-5 flex flex-col gap-5'>

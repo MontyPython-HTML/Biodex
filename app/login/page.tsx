@@ -19,7 +19,7 @@ export default function LoginPage() {
 
     try {
       await signIn(email, password);
-      router.push('/homepage');
+      router.push('/');
     } catch (err: any) {
       setError(err.message || 'Failed to sign in. Please check your credentials.');
     } finally {

@@ -1,3 +1,5 @@
+"use client";
+
 import { getAuth, Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User as FirebaseUser, updateProfile } from "firebase/auth";
 import { User } from "@/src/Models/User";
 import * as database from "@/src/Firebase/database";

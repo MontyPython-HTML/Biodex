@@ -1,3 +1,5 @@
+"use client";
+
 import { getFirestore, Firestore, addDoc, collection, doc, deleteDoc, getDocs, getDoc, updateDoc, query, where } from "firebase/firestore";
 import { User } from "@/src/Models/User";
 import { getFirebaseApp } from "./config";

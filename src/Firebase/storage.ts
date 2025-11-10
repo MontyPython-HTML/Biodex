@@ -1,3 +1,5 @@
+"use client";
+
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { FirebaseStorage } from "firebase/storage";
 import { getFirebaseApp } from "./config";
